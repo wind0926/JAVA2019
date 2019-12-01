@@ -303,3 +303,451 @@ DQL语言的学习
 	4、可以按多个字段分组，字段之间用逗号隔开
 	5、可以支持排序
 	6、having后可以支持别名
+
+进阶6：多表连接查询
+-----------------------------------------
+
+	笛卡尔乘积：如果连接条件省略或无效则会出现
+	解决办法：添加上连接条件
+	
+一、传统模式下的连接 ：等值连接——非等值连接
+
+
+	1.等值连接的结果 = 多个表的交集
+	2.n表连接，至少需要n-1个连接条件
+	3.多个表不分主次，没有顺序要求
+	4.一般为表起别名，提高阅读性和性能
+	
+二、sql99语法：通过join关键字实现连接
+
+	含义：1999年推出的sql语法
+	支持：
+	等值连接、非等值连接 （内连接）
+	外连接
+	交叉连接
+	
+	语法：
+	
+	select 字段，...
+	from 表1
+	【inner|left outer|right outer|cross】join 表2 on  连接条件
+	【inner|left outer|right outer|cross】join 表3 on  连接条件
+	【where 筛选条件】
+	【group by 分组字段】
+	【having 分组后的筛选条件】
+	【order by 排序的字段或表达式】
+	
+	好处：语句上，连接条件和筛选条件实现了分离，简洁明了！
+
+	
+三、自连接
+
+案例：查询员工名和直接上级的名称
+
+sql99
+
+	SELECT e.last_name,m.last_name
+	FROM employees e
+	JOIN employees m 
+	ON e.`manager_id`=m.`employee_id`;
+
+sql92
+
+	
+	SELECT e.last_name,m.last_name
+	FROM employees e,employees m 
+	WHERE e.`manager_id`=m.`employee_id`;
+
+
+进阶7：子查询
+---------------------------------
+
+含义：
+
+	一条查询语句中又嵌套了另一条完整的select语句，其中被嵌套的select语句，称为子查询或内查询
+	在外面的查询语句，称为主查询或外查询
+
+特点：
+
+	1、子查询都放在小括号内
+	2、子查询可以放在from后面、select后面、where后面、having后面，但一般放在条件的右侧
+	3、子查询优先于主查询执行，主查询使用了子查询的执行结果
+	4、子查询根据查询结果的行数不同分为以下两类：
+	① 单行子查询
+		结果集只有一行
+		一般搭配单行操作符使用：> < = <> >= <= 
+		非法使用子查询的情况：
+		a、子查询的结果为一组值
+		b、子查询的结果为空
+		
+	② 多行子查询
+		结果集有多行
+		一般搭配多行操作符使用：any、all、in、not in
+		in： 属于子查询结果中的任意一个就行
+		any和all往往可以用其他查询代替
+案例：  
+    1.标量子查询★  
+	案例1：谁的工资比 Abel 高?
+
+	①查询Abel的工资
+	SELECT salary
+	FROM employees
+	WHERE last_name = 'Abel'
+	
+	②查询员工的信息，满足 salary>①结果
+	SELECT *
+	FROM employees
+	WHERE salary>(
+	
+		SELECT salary
+		FROM employees
+		WHERE last_name = 'Abel'
+	
+	);  
+
+案例2：返回job_id与141号员工相同，salary比143号员工多的员工 姓名，job_id 和工资
+	
+	①查询141号员工的job_id
+	SELECT job_id
+	FROM employees
+	WHERE employee_id = 141
+	
+	②查询143号员工的salary
+	SELECT salary
+	FROM employees
+	WHERE employee_id = 143
+	
+	③查询员工的姓名，job_id 和工资，要求job_id=①并且salary>②
+	
+	SELECT last_name,job_id,salary
+	FROM employees
+	WHERE job_id = (
+		SELECT job_id
+		FROM employees
+		WHERE employee_id = 141
+	) AND salary>(
+		SELECT salary
+		FROM employees
+		WHERE employee_id = 143
+	
+	);
+	
+2.列子查询（多行子查询）★  
+	案例1：返回其它工种中比job_id为‘IT_PROG’工种任一工资低的员工的员工号、姓名、job_id 以及salary
+	
+	①查询job_id为‘IT_PROG’部门任一工资
+	
+	SELECT DISTINCT salary
+	FROM employees
+	WHERE job_id = 'IT_PROG'
+	
+	②查询员工号、姓名、job_id 以及salary，salary<(①)的任意一个
+	SELECT last_name,employee_id,job_id,salary
+	FROM employees
+	WHERE salary<ANY(
+		SELECT DISTINCT salary
+		FROM employees
+		WHERE job_id = 'IT_PROG'
+	
+	) AND job_id<>'IT_PROG';
+	
+	或
+	SELECT last_name,employee_id,job_id,salary
+	FROM employees
+	WHERE salary<(
+		SELECT MAX(salary)
+		FROM employees
+		WHERE job_id = 'IT_PROG'
+	
+	) AND job_id<>'IT_PROG';
+3、行子查询（结果集一行多列或多行多列）  
+	 案例：查询员工编号最小并且工资最高的员工信息
+
+	SELECT * 
+	FROM employees
+	WHERE (employee_id,salary)=(
+		SELECT MIN(employee_id),MAX(salary)
+		FROM employees
+	);
+
+二、select后面  
+	/*
+	仅仅支持标量子查询
+	*/
+	
+案例：查询每个部门的员工个数
+	
+	
+	SELECT d.*,(
+	
+		SELECT COUNT(*)
+		FROM employees e
+		WHERE e.department_id = d.`department_id`
+	 ) 个数
+	 FROM departments d;
+三、exists后面（相关子查询）
+
+/*
+语法：
+exists(完整的查询语句)
+结果：
+1或0
+*/
+
+	SELECT EXISTS(SELECT employee_id FROM employees WHERE salary=300000);
+
+进阶8：分页查询
+-------------------
+
+应用场景：
+
+	实际的web项目中需要根据用户的需求提交对应的分页查询的sql语句
+
+语法：
+
+	select 字段|表达式,...
+	from 表
+	【where 条件】
+	【group by 分组字段】
+	【having 条件】
+	【order by 排序的字段】
+	limit 【起始的条目索引，】条目数;
+
+特点：
+
+	1.起始条目索引从0开始
+	
+	2.limit子句放在查询语句的最后
+	
+	3.公式：select * from  表 limit （page-1）*sizePerPage,sizePerPage
+	假如:
+	每页显示条目数sizePerPage
+	要显示的页数 page
+
+进阶9：联合查询
+-----------------------------
+
+引入：
+	union 联合、合并
+
+语法：
+
+	select 字段|常量|表达式|函数 【from 表】 【where 条件】 union 【all】
+	select 字段|常量|表达式|函数 【from 表】 【where 条件】 union 【all】
+	select 字段|常量|表达式|函数 【from 表】 【where 条件】 union  【all】
+	.....
+	select 字段|常量|表达式|函数 【from 表】 【where 条件】
+
+特点：
+
+	1、多条查询语句的查询的列数必须是一致的
+	2、多条查询语句的查询的列的类型几乎相同
+	3、union代表去重，union all代表不去重
+
+
+##DML语言
+==============
+
+###插入
+
+语法：
+	insert into 表名(字段名，...)
+	values(值1，...);
+
+特点：
+
+	1、字段类型和值类型一致或兼容，而且一一对应
+	2、可以为空的字段，可以不用插入值，或用null填充
+	3、不可以为空的字段，必须插入值
+	4、字段个数和值的个数必须一致
+	5、字段可以省略，但默认所有字段，并且顺序和表中的存储顺序一致
+
+###修改  
+---------------
+修改单表语法：  
+
+	update 表名 set 字段=新值,字段=新值
+	【where 条件】
+修改多表语法：
+
+	update 表1 别名1,表2 别名2
+	set 字段=新值，字段=新值
+	where 连接条件
+	and 筛选条件
+
+
+###删除
+-------------
+方式1：delete语句   
+
+单表的删除： ★  
+	delete from 表名 【where 筛选条件】
+
+多表的删除：  
+	delete 别名1，别名2
+	from 表1 别名1，表2 别名2
+	where 连接条件
+	and 筛选条件;
+
+
+方式2：truncate语句  
+
+	truncate table 表名
+
+
+两种方式的区别【面试题】
+	
+	#1.truncate不能加where条件，而delete可以加where条件
+	
+	#2.truncate的效率高一丢丢
+	
+	#3.truncate 删除带自增长的列的表后，如果再插入数据，数据从1开始
+	#delete 删除带自增长列的表后，如果再插入数据，数据从上一次的断点处开始
+	
+	#4.truncate删除不能回滚，delete删除可以回滚
+
+
+DDL语句
+==========================
+###库和表的管理
+-----------------------
+库的管理：
+
+	一、创建库
+	create database 库名
+	二、删除库
+	drop database 库名
+表的管理：
+	#1.创建表
+	
+	CREATE TABLE IF NOT EXISTS stuinfo(
+		stuId INT,
+		stuName VARCHAR(20),
+		gender CHAR,
+		bornDate DATETIME
+		
+	
+	);
+
+	DESC studentinfo;
+	#2.修改表 alter
+	语法：ALTER TABLE 表名 ADD|MODIFY|DROP|CHANGE COLUMN 字段名 【字段类型】;
+	
+	#①修改字段名
+	ALTER TABLE studentinfo CHANGE  COLUMN sex gender CHAR;
+	
+	#②修改表名
+	ALTER TABLE stuinfo RENAME [TO]  studentinfo;
+	#③修改字段类型和列级约束
+	ALTER TABLE studentinfo MODIFY COLUMN borndate DATE ;
+	
+	#④添加字段
+	
+	ALTER TABLE studentinfo ADD COLUMN email VARCHAR(20) first;
+	#⑤删除字段
+	ALTER TABLE studentinfo DROP COLUMN email;
+	
+	
+	#3.删除表
+	
+	DROP TABLE [IF EXISTS] studentinfo;
+	
+	#4.复制表
+	##1.仅仅复制表的结构
+	
+	CREATE TABLE 新表名 LIKE 旧表名;
+	
+	##2.复制表的结构+数据
+	CREATE TABLE 新表名 
+	SELECT * FROM 旧表名;
+	
+	##只复制部分数据
+	CREATE TABLE 新表名
+	SELECT id,au_name
+	FROM 旧表名 
+	WHERE nation='中国';
+	
+	
+	##仅仅复制某些字段
+	
+	CREATE TABLE 新表名 
+	SELECT id,au_name
+	FROM 旧表名
+	WHERE 0;
+		
+
+
+###常见类型
+
+	整型：Tinyint 1个字节
+			Smallint 2个字节
+			Mediumint 3个字节
+			Int、Integer 4个字节
+			Bigint   8个字节
+	特点：
+	① 如果不设置无符号还是有符号，默认是有符号，如果想设置无符号，需要添加unsigned关键字
+	② 如果插入的数值超出了整型的范围,会报out of range异常，并且插入临界值
+	③ 如果不设置长度，会有默认的长度
+	长度代表了显示的最大宽度，如果不够会用0在左边填充，但必须搭配zerofill使用！
+
+	小数：
+		分类：
+		1.浮点型
+		float(M,D)
+		double(M,D)
+		2.定点型
+		dec(M，D)
+		decimal(M,D)
+		
+		特点：
+		
+		①
+		M：整数部位+小数部位
+		D：小数部位
+		如果超过范围，则插入临界值
+		
+		②
+		M和D都可以省略
+		如果是decimal，则M默认为10，D默认为0
+		如果是float和double，则会根据插入的数值的精度来决定精度
+		
+		③定点型的精确度较高，如果要求插入数值的精度较高如货币运算等则考虑使用
+
+	字符型：
+	特点：
+	
+	
+	
+			写法			M的意思							特点			空间的耗费	效率
+	char	char(M)		最大的字符数，可以省略，默认为1		固定长度的字符		比较耗费	高
+	
+	varchar varchar(M)	最大的字符数，不可以省略		可变长度的字符		比较节省		低
+	
+
+	日期型：
+	分类：
+		date只保存日期
+		time 只保存时间
+		year只保存年
+		
+		datetime保存日期+时间
+		timestamp保存日期+时间
+	
+	
+	特点：
+	
+				字节		范围		              时区等的影响
+	datetime    8		1000——9999	                  不受
+	timestamp	4	    1970-2038	                    受
+	Blob类型：
+
+
+
+###常见约束
+
+	NOT NULL
+	DEFAULT
+	UNIQUE
+	CHECK
+	PRIMARY KEY
+	FOREIGN KEY
