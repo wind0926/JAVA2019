@@ -743,6 +743,7 @@ DDL语句
 
 
 
+
 ###常见约束
 
 	NOT NULL
@@ -751,3 +752,630 @@ DDL语句
 	CHECK
 	PRIMARY KEY
 	FOREIGN KEY
+	分类：六大约束
+		NOT NULL：非空，用于保证该字段的值不能为空
+		比如姓名、学号等
+		DEFAULT:默认，用于保证该字段有默认值
+		比如性别
+		PRIMARY KEY:主键，用于保证该字段的值具有唯一性，并且非空
+		比如学号、员工编号等
+		UNIQUE:唯一，用于保证该字段的值具有唯一性，可以为空
+		比如座位号
+		CHECK:检查约束【mysql中不支持】
+		比如年龄、性别
+		FOREIGN KEY:外键，用于限制两个表的关系，用于保证该字段的值必须来自于主表的关联列的值
+			在从表添加外键约束，用于引用主表中某列的值
+		比如学生表的专业编号，员工表的部门编号，员工表的工种编号
+		
+	
+	添加约束的时机：
+		1.创建表时
+		2.修改表时
+		
+	
+	约束的添加分类：
+		列级约束：
+			六大约束语法上都支持，但外键约束没有效果
+			
+		表级约束：
+			
+			除了非空、默认，其他的都支持
+			
+			
+	主键和唯一的大对比：
+	
+			保证唯一性  是否允许为空    一个表中可以有多少个   是否允许组合
+		主键	√		    ×				至多有1个           √，但不推荐
+		唯一	√			√				可以有多个          √，但不推荐
+	外键：
+		1、要求在从表设置外键关系
+		2、从表的外键列的类型和主表的关联列的类型要求一致或兼容，名称无要求
+		3、主表的关联列必须是一个key（一般是主键或唯一）
+		4、插入数据时，先插入主表，再插入从表
+		删除数据时，先删除从表，再删除主表
+
+	#查看stuinfo中的所有索引，包括主键、外键、唯一
+	SHOW INDEX FROM stuinfo;
+
+	#2.添加表级约束
+	/*
+	
+	语法：在各个字段的最下面
+	 【constraint 约束名】 约束类型(字段名) 
+	*/
+	
+	DROP TABLE IF EXISTS stuinfo;
+	CREATE TABLE stuinfo(
+		id INT,
+		stuname VARCHAR(20),
+		gender CHAR(1),
+		seat INT,
+		age INT,
+		majorid INT,
+		
+		CONSTRAINT pk PRIMARY KEY(id),#主键
+		CONSTRAINT uq UNIQUE(seat),#唯一键
+		CONSTRAINT ck CHECK(gender ='男' OR gender  = '女'),#检查
+		CONSTRAINT fk_stuinfo_major FOREIGN KEY(majorid) REFERENCES major(id)#外键
+		
+	);
+
+	#二、修改表时添加约束
+	
+	/*
+	1、添加列级约束
+	alter table 表名 modify column 字段名 字段类型 新约束;
+	
+	2、添加表级约束
+	alter table 表名 add 【constraint 约束名】 约束类型(字段名) 【外键的引用】;
+	
+	
+	*/
+	#1.添加非空约束
+	ALTER TABLE stuinfo MODIFY COLUMN stuname VARCHAR(20)  NOT NULL;
+	#2.添加默认约束
+	ALTER TABLE stuinfo MODIFY COLUMN age INT DEFAULT 18;
+	#3.添加主键
+	#①列级约束
+	ALTER TABLE stuinfo MODIFY COLUMN id INT PRIMARY KEY;
+	#②表级约束
+	ALTER TABLE stuinfo ADD PRIMARY KEY(id);
+	
+	#4.添加唯一
+	
+	#①列级约束
+	ALTER TABLE stuinfo MODIFY COLUMN seat INT UNIQUE;
+	#②表级约束
+	ALTER TABLE stuinfo ADD UNIQUE(seat);
+	
+	
+	#5.添加外键
+	ALTER TABLE stuinfo ADD CONSTRAINT fk_stuinfo_major FOREIGN KEY(majorid) REFERENCES major(id); 
+	
+	#三、修改表时删除约束
+	
+	#1.删除非空约束
+	ALTER TABLE stuinfo MODIFY COLUMN stuname VARCHAR(20) NULL;
+	
+	#2.删除默认约束
+	ALTER TABLE stuinfo MODIFY COLUMN age INT ;
+	
+	#3.删除主键
+	ALTER TABLE stuinfo DROP PRIMARY KEY;
+	
+	#4.删除唯一
+	ALTER TABLE stuinfo DROP INDEX seat;
+	
+	#5.删除外键
+	ALTER TABLE stuinfo DROP FOREIGN KEY fk_stuinfo_major;
+	
+	SHOW INDEX FROM stuinfo;
+
+	#标识列
+	/*
+	又称为自增长列
+	含义：可以不用手动的插入值，系统提供默认的序列值
+	
+	
+	特点：
+	1、标识列必须和主键搭配吗？不一定，但要求是一个key
+	2、一个表可以有几个标识列？至多一个！
+	3、标识列的类型只能是数值型
+	4、标识列可以通过 SET auto_increment_increment=3;设置步长
+	可以通过 手动插入值，设置起始值
+	
+	
+	*/
+
+数据库事务
+---------------------------
+###含义
+	通过一组逻辑操作单元（一组DML——sql语句），将数据从一种状态切换到另外一种状态
+
+###特点
+	（ACID）
+	原子性：要么都执行，要么都回滚
+	一致性：保证数据的状态操作前和操作后保持一致
+	隔离性：多个事务同时操作相同数据库的同一个数据时，一个事务的执行不受另外一个事务的干扰
+	持久性：一个事务一旦提交，则数据将持久化到本地，除非其他事务对其进行修改
+
+相关步骤：
+
+	1、开启事务
+	2、编写事务的一组逻辑操作单元（多条sql语句）
+	3、提交事务或回滚事务
+
+###事务的分类：
+
+隐式事务，没有明显的开启和结束事务的标志
+
+	比如
+	insert、update、delete语句本身就是一个事务
+
+
+显式事务，具有明显的开启和结束事务的标志
+
+		1、开启事务
+		取消自动提交事务的功能
+		
+		2、编写事务的一组逻辑操作单元（多条sql语句）
+		insert
+		update
+		delete
+		
+		3、提交事务或回滚事务
+###使用到的关键字
+
+	set autocommit=0;
+	start transaction;
+	commit;
+	rollback;
+	
+	savepoint  断点
+	commit to 断点
+	rollback to 断点
+
+
+事务的隔离级别:
+--------------------------
+事务并发问题如何发生？
+
+	当多个事务同时操作同一个数据库的相同数据时
+事务的并发问题有哪些？
+
+	脏读：一个事务读取到了另外一个事务未提交的数据
+	不可重复读：同一个事务中，多次读取到的数据不一致
+	幻读：一个事务读取数据时，另外一个事务进行更新，导致第一个事务读取到了没有更新的数据
+	
+如何避免事务的并发问题？
+
+	通过设置事务的隔离级别
+	1、READ UNCOMMITTED
+	2、READ COMMITTED 可以避免脏读
+	3、REPEATABLE READ 可以避免脏读、不可重复读和一部分幻读
+	4、SERIALIZABLE可以避免脏读、不可重复读和幻读
+
+		事务的隔离级别：
+					  脏读		不可重复读	幻读
+	read uncommitted：√				√		√
+	read committed：  ×				√		√
+	repeatable read： ×				×		√
+	serializable	  ×             ×       ×
+	
+	
+	mysql中默认 第三个隔离级别 repeatable read
+	oracle中默认第二个隔离级别 read committed
+
+	设置隔离级别：
+
+	set session|global  transaction isolation level 隔离级别名;
+查看隔离级别：
+
+	select @@tx_isolation;
+	
+
+
+视图
+==================
+含义：理解成一张虚拟的表
+
+视图和表的区别：
+	
+		使用方式	占用物理空间
+	
+	视图	完全相同	不占用，仅仅保存的是sql逻辑
+	
+	表	完全相同	占用
+
+视图的好处：
+
+
+	1、sql语句提高重用性，效率高
+	2、和表实现了分离，提高了安全性
+
+###视图的创建
+	语法：
+	CREATE VIEW  视图名
+	AS
+	查询语句;
+
+	例如：#1.查询姓名中包含a字符的员工名、部门名和工种信息
+	#①创建
+	CREATE VIEW myv1
+	AS
+	
+	SELECT last_name,department_name,job_title
+	FROM employees e
+	JOIN departments d ON e.department_id  = d.department_id
+	JOIN jobs j ON j.job_id  = e.job_id;
+	
+	
+	#②使用
+	SELECT * FROM myv1 WHERE last_name LIKE '%a%';
+
+###视图的增删改查
+	1、查看视图的数据 ★
+	
+	SELECT * FROM my_v4;
+	SELECT * FROM my_v1 WHERE last_name='Partners';
+	
+	2、插入视图的数据
+	INSERT INTO my_v4(last_name,department_id) VALUES('虚竹',90);
+	
+	3、修改视图的数据
+	
+	UPDATE my_v4 SET last_name ='梦姑' WHERE last_name='虚竹';
+	
+	
+	4、删除视图的数据
+	DELETE FROM my_v4;
+###某些视图不能更新
+	包含以下关键字的sql语句：分组函数、distinct、group  by、having、union或者union all
+	常量视图
+	Select中包含子查询
+	join
+	from一个不能更新的视图
+	where子句的子查询引用了from子句中的表
+###视图逻辑的更新
+	#方式一：
+	CREATE OR REPLACE VIEW test_v7
+	AS
+	SELECT last_name FROM employees
+	WHERE employee_id>100;
+	
+	#方式二:
+	ALTER VIEW test_v7
+	AS
+	SELECT employee_id FROM employees;
+	
+	SELECT * FROM test_v7;
+###视图的删除
+	DROP VIEW test_v1,test_v2,test_v3;
+###视图结构的查看	
+	DESC test_v7;
+	SHOW CREATE VIEW test_v7;
+
+存储过程
+=============================
+含义：一组经过预先编译的sql语句的集合
+好处：
+
+	1、提高了sql语句的重用性，减少了开发程序员的压力
+	2、提高了效率
+	3、减少了传输次数
+
+分类：
+
+	1、无返回无参
+	2、仅仅带in类型，无返回有参
+	3、仅仅带out类型，有返回无参
+	4、既带in又带out，有返回有参
+	5、带inout，有返回有参
+	注意：in、out、inout都可以在一个存储过程中带多个
+###创建存储过程
+语法：
+
+	create procedure 存储过程名(in|out|inout 参数名  参数类型,...)
+	begin
+		存储过程体
+
+	end
+
+类似于方法：
+
+	修饰符 返回类型 方法名(参数类型 参数名,...){
+
+		方法体;
+	}
+
+注意
+
+	1、需要设置新的结束标记
+	delimiter 新的结束标记
+	示例：
+	delimiter $
+
+	CREATE PROCEDURE 存储过程名(IN|OUT|INOUT 参数名  参数类型,...)
+	BEGIN
+		sql语句1;
+		sql语句2;
+
+	END $
+
+	2、存储过程体中可以有多条sql语句，如果仅仅一条sql语句，则可以省略begin end
+
+	3、参数前面的符号的意思
+	in:该参数只能作为输入 （该参数不能做返回值）
+	out：该参数只能作为输出（该参数只能做返回值）
+	inout：既能做输入又能做输出
+
+
+#调用存储过程
+	call 存储过程名(实参列表)
+#案例：
+	#1.创建带in模式参数的存储过程
+	
+	#案例1：创建存储过程实现 根据女神名，查询对应的男神信息
+	
+	CREATE PROCEDURE myp2(IN beautyName VARCHAR(20))
+	DELIMITER $
+	BEGIN
+		SELECT bo.*
+		FROM boys bo
+		RIGHT JOIN beauty b ON bo.id = b.boyfriend_id
+		WHERE b.name=beautyName;
+		
+	
+	END $
+	
+	#调用
+	CALL myp2('柳岩')$
+
+	#案例2 ：创建存储过程实现，用户是否登录成功
+	
+	CREATE PROCEDURE myp4(IN username VARCHAR(20),IN PASSWORD VARCHAR(20))
+	BEGIN
+		DECLARE result INT DEFAULT 0;#声明并初始化
+		
+		SELECT COUNT(*) INTO result#赋值
+		FROM admin
+		WHERE admin.username = username
+		AND admin.password = PASSWORD;
+		
+		SELECT IF(result>0,'成功','失败');#使用
+	END $
+	
+	#调用
+	CALL myp3('张飞','8888')$
+##三、删除存储过程
+	#语法：drop procedure 存储过程名
+		DROP PROCEDURE p1;
+##四、查看存储过程的信息
+	DESC myp2;×
+	SHOW CREATE PROCEDURE  myp2;
+
+函数
+===============
+
+
+###创建函数
+
+学过的函数：LENGTH、SUBSTR、CONCAT等
+语法：
+
+	CREATE FUNCTION 函数名(参数名 参数类型,...) RETURNS 返回类型
+	BEGIN
+		函数体
+	
+	END
+
+###调用函数
+	SELECT 函数名（实参列表）
+
+###案例
+	#案例1：根据部门名，返回该部门的平均工资
+	
+	CREATE FUNCTION myf3(deptName VARCHAR(20)) RETURNS DOUBLE
+	BEGIN
+		DECLARE sal DOUBLE ;
+		SELECT AVG(salary) INTO sal
+		FROM employees e
+		JOIN departments d ON e.department_id = d.department_id
+		WHERE d.department_name=deptName;
+		RETURN sal;
+	END $
+	
+	SELECT myf3('IT')$
+	
+
+
+###函数和存储过程的区别
+
+			关键字		调用语法	返回值			应用场景
+	函数		FUNCTION	SELECT 函数()	只能是一个		一般用于查询结果为一个值并返回时，当有返回值而且仅仅一个
+	存储过程	PROCEDURE	CALL 存储过程()	可以有0个或多个		一般用于更新
+
+
+流程控制结构
+=======================
+###系统变量
+一、全局变量
+
+作用域：针对于所有会话（连接）有效，但不能跨重启
+
+	查看所有全局变量
+	SHOW GLOBAL VARIABLES;
+	查看满足条件的部分系统变量
+	SHOW GLOBAL VARIABLES LIKE '%char%';
+	查看指定的系统变量的值
+	SELECT @@global.autocommit;
+	为某个系统变量赋值
+	SET @@global.autocommit=0;
+	SET GLOBAL autocommit=0;
+
+二、会话变量
+
+作用域：针对于当前会话（连接）有效
+
+	查看所有会话变量
+	SHOW SESSION VARIABLES;
+	查看满足条件的部分会话变量
+	SHOW SESSION VARIABLES LIKE '%char%';
+	查看指定的会话变量的值
+	SELECT @@autocommit;
+	SELECT @@session.tx_isolation;
+	为某个会话变量赋值
+	SET @@session.tx_isolation='read-uncommitted';
+	SET SESSION tx_isolation='read-committed';
+
+###自定义变量
+一、用户变量
+
+声明并初始化：
+
+	SET @变量名=值;
+	SET @变量名:=值;
+	SELECT @变量名:=值;
+赋值：
+
+	方式一：一般用于赋简单的值
+	SET 变量名=值;
+	SET 变量名:=值;
+	SELECT 变量名:=值;
+
+
+	方式二：一般用于赋表 中的字段值
+	SELECT 字段名或表达式 INTO 变量
+	FROM 表;
+
+使用：
+
+	select @变量名;
+
+二、局部变量
+
+声明：
+
+	declare 变量名 类型 【default 值】;
+赋值：
+
+	方式一：一般用于赋简单的值
+	SET 变量名=值;
+	SET 变量名:=值;
+	SELECT 变量名:=值;
+
+
+	方式二：一般用于赋表 中的字段值
+	SELECT 字段名或表达式 INTO 变量
+	FROM 表;
+
+使用：
+
+	select 变量名
+
+
+
+二者的区别：
+
+				作用域				定义位置			语法
+	用户变量	当前会话		会话的任何地方			加@符号，不用指定类型  
+	局部变量	定义它的BEGIN END中 	BEGIN END的第一句话	一般不用加@,需要指定类型
+
+###分支
+一、if函数
+	语法：if(条件，值1，值2)
+	特点：可以用在任何位置
+
+二、case语句
+
+语法：
+
+	情况一：类似于switch
+	case 表达式
+	when 值1 then 结果1或语句1(如果是语句，需要加分号) 
+	when 值2 then 结果2或语句2(如果是语句，需要加分号)
+	...
+	else 结果n或语句n(如果是语句，需要加分号)
+	end 【case】（如果是放在begin end中需要加上case，如果放在select后面不需要）
+
+	情况二：类似于多重if
+	case 
+	when 条件1 then 结果1或语句1(如果是语句，需要加分号) 
+	when 条件2 then 结果2或语句2(如果是语句，需要加分号)
+	...
+	else 结果n或语句n(如果是语句，需要加分号)
+	end 【case】（如果是放在begin end中需要加上case，如果放在select后面不需要）
+
+
+特点：
+	可以用在任何位置
+
+三、if elseif语句
+
+语法：
+
+	if 情况1 then 语句1;
+	elseif 情况2 then 语句2;
+	...
+	else 语句n;
+	end if;
+
+特点：
+	只能用在begin end中！！！！！！！！！！！！！！！
+
+
+三者比较：
+			应用场合
+	if函数		简单双分支
+	case结构	等值判断 的多分支
+	if结构		区间判断 的多分支
+
+
+###循环
+
+语法：
+
+
+	【标签：】WHILE 循环条件  DO
+		循环体
+	END WHILE 【标签】;
+	
+特点：
+
+	只能放在BEGIN END里面
+
+	如果要搭配leave跳转语句，需要使用标签，否则可以不用标签
+
+	leave类似于java中的break语句，跳出所在循环！！！
+
+###经典案例
+	/*一、已知表stringcontent
+	其中字段：
+	id 自增长
+	content varchar(20)
+	
+	向该表插入指定个数的，随机的字符串
+	*/
+	DROP TABLE IF EXISTS stringcontent;
+	CREATE TABLE stringcontent(
+		id INT PRIMARY KEY AUTO_INCREMENT,
+		content VARCHAR(20)
+		
+	);
+	DELIMITER $
+	CREATE PROCEDURE test_randstr_insert(IN insertCount INT)
+	BEGIN
+		DECLARE i INT DEFAULT 1;
+		DECLARE str VARCHAR(26) DEFAULT 'abcdefghijklmnopqrstuvwxyz';
+		DECLARE startIndex INT;#代表初始索引
+		DECLARE len INT;#代表截取的字符长度
+		WHILE i<=insertcount DO
+			SET startIndex=FLOOR(RAND()*26+1);#代表初始索引，随机范围1-26
+			SET len=FLOOR(RAND()*(20-startIndex+1)+1);#代表截取长度，随机范围1-（20-startIndex+1）
+			INSERT INTO stringcontent(content) VALUES(SUBSTR(str,startIndex,len));
+			SET i=i+1;
+		END WHILE;
+	
+	END $
+	
+	CALL test_randstr_insert(10)$
