@@ -1443,7 +1443,7 @@ aa
 * */
 ```
 
-# 内部类
+# 十四、内部类
 1.为什么使用内部类?  
 使用内部类最吸引人的原因是：每个内部类都能独立地继承一个（接口的）实现，所以无论外围类是否已经继承了某个（接口的）实现，对于内部类都没有影响。  
 1.1.使用内部类最大的优点就在于它能够非常好的解决多重继承的问题,使用内部类还能够为我们带来如下特性:  
@@ -1579,12 +1579,170 @@ http://docs.oracle.com/javase/tutorial/java/javaOO/localclasses.html
 
 ```
 
+# 十五、Comparable和omparator
+Comparable的代码如下：  
+```java
+public interface Comparable<T> {
+    public int compareTo(T o);
+}
+```
+Comparator的代码如下:
+```java
+public interface Comparator<T> {
+    int compare(T o1, T o2);
+    boolean equals(Object obj);
+
+    // jdk1.8 后的方法
+    default Comparator<T> reversed() {
+        return Collections.reverseOrder(this);
+    }
+```
+Comparable和Comparator的主要区别在于：
+
+　　(1).Comparator 和 Comparable都是Java中的内部比较器接口，都是用来实现对一个自定义的类进行排序
+
+　　(2). 不同的是实现Comparable接口是定义在类的内部，比较代码需要嵌入类的内部结构中
+
+　　(3).  Comparator 实现在类的外部，单独实现第一个比较器，不需要对原来的类进行结构上的变化，属于无侵入式的。
+    (4).Comparator更加符合开闭原则，对修改关闭，对扩展开放
+
+```java
+public class Score implements Comparable<Score> {
+    public int score;
+    public int time;
+
+    public int getScore() {
+        return score;
+    }
+
+    public void setScore(int score) {
+        this.score = score;
+    }
+
+    public int getTime() {
+        return time;
+    }
+
+    public void setTime(int time) {
+        this.time = time;
+    }
+
+    public Score(int score, int time) {
+        super();
+        this.score = score;
+        this.time = time;
+    }
+
+    @Override
+    public int compareTo(Score o) {
+        if(this.time>o.time) return 1;
+        else if(this.time==o.time) return 0;
+        else return -1;
+    }
+
+    @Override
+    public String toString() {
+        return "Score{" +
+                "score=" + score +
+                ", time=" + time +
+                '}';
+    }
+}
+
+```
+```java
+import java.util.Comparator;
+
+public class ScoreComparator implements Comparator<Score> {
+
+    @Override
+    public int compare(Score o1, Score o2) {
+       /* if(o1.time>o2.time) return 1;
+        else if(o1.time==o2.time) return 0;
+        else return -1;*/
+       return o1.score-o2.score;
+    }
+}
+
+```
+```java
+import java.util.Arrays;
+
+public class ScoreTest {
+    public static void main(String[] args) {
+        Score score = new Score(2,1);
+        Score score1 = new Score(3,3);
+        Score score2 = new Score(1,4);
+        Score score3 = new Score(2,2);
+        Score score4 = new Score(5,5);
+        Score[] help=new Score[]{score,score1,score2,score3,score4};
+        Arrays.sort(help,new ScoreComparator());
+        System.out.println(Arrays.toString(help));
+    }
+}
+
+```
+
+# 十六、序列化和反序列化
+```java
+import java.io.Serializable;
+
+public class User1 implements Serializable {
+
+    private String name;
+    private int age;
+
+    public String getName() {
+        return name;
+    }
+    public void setName(String name) {
+        this.name = name;
+    }
+    public int getAge() {
+        return age;
+    }
+    public void setAge(int age) {
+        this.age = age;
+    }
+
+    @Override
+    public String toString() {
+        return "User1{" +
+                "name='" + name + '\'' +
+                ", age=" + age +
+                '}';
+    }
+}
+```
+```java
+import java.io.*;
+
+public class SerializableDemo1 {
+
+    public static void main(String[] args) throws Exception, IOException {
+        //初始化对象
+        User1 user = new User1();
+        user.setName("tanglilei");
+        user.setAge(23);
+        System.out.println(user);
+        //序列化对象到文件中
+        ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("template"));
+        oos.writeObject(user);
+        oos.close();
 
 
-
-
-
-
+        //反序列化
+//        File file = new File("template");
+        ObjectInputStream ois = new ObjectInputStream(new FileInputStream("template"));
+        User1 newUser = (User1) ois.readObject();
+        System.out.println(newUser.toString());
+/*        File file = new File("template");
+        ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file));
+        User1 newUser = (User1)ois.readObject();
+        System.out.println(newUser.toString());*/
+    }
+}
+```
 
 
 # 参考资料
