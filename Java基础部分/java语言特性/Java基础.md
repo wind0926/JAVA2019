@@ -1,4 +1,48 @@
-
+<!-- GFM-TOC -->
+* [一、数据类型](#一数据类型)
+    * [基本类型](#基本类型)
+    * [包装类型](#包装类型)
+    * [缓存池](#缓存池)
+* [二、String](#二string)
+    * [概览](#概览)
+    * [不可变的好处](#不可变的好处)
+    * [String, StringBuffer and StringBuilder](#string,-stringbuffer-and-stringbuilder)
+    * [String Pool](#string-pool)
+    * [new String("abc")](#new-string"abc")
+* [三、运算](#三运算)
+    * [参数传递](#参数传递)
+    * [float 与 double](#float-与-double)
+    * [隐式类型转换](#隐式类型转换)
+    * [switch](#switch)
+* [四、关键字](#四关键字)
+    * [final](#final)
+    * [static](#static)
+* [五、Object 通用方法](#五object-通用方法)
+    * [概览](#概览)
+    * [equals()](#equals)
+    * [hashCode()](#hashcode)
+    * [toString()](#tostring)
+    * [clone()](#clone)
+* [六、继承](#六继承)
+    * [访问权限](#访问权限)
+    * [抽象类与接口](#抽象类与接口)
+    * [super](#super)
+    * [重写与重载](#重写与重载)
+* [七、反射](#七反射)
+* [八、异常](#八异常)
+* [九、泛型](#九泛型)
+* [十、注解](#十注解)
+* [十一、特性](#十一特性)
+    * [Java 各版本的新特性](#java-各版本的新特性)
+    * [Java 与 C++ 的区别](#java-与-c-的区别)
+    * [JRE or JDK](#jre-or-jdk)
+* [十二、标识符](#十二标识符)
+* [十三、编码](#十三编码)
+* [十四、内部类](#十四内部类)
+* [十五、Comparable和Comparator](#十五Comparable和Comparator)
+* [十六、序列化和反序列化](#十六序列化和反序列化)
+* [参考资料](#参考资料)
+<!-- GFM-TOC -->
 
 
 # 一、数据类型
@@ -1579,7 +1623,7 @@ http://docs.oracle.com/javase/tutorial/java/javaOO/localclasses.html
 
 ```
 
-# 十五、Comparable和omparator
+# 十五、Comparable和Comparator
 Comparable的代码如下：  
 ```java
 public interface Comparable<T> {
