@@ -24,6 +24,21 @@
     * [类加载器分类](#类加载器分类)
     * [双亲委派模型](#双亲委派模型)
     * [自定义类加载器实现](#自定义类加载器实现)
+* [五、JVM常见的启动参数](#五、jvm常见的启动参数)
+    * [GC:](#gc)
+    * [FullGC:](#fullgc)
+    * [-XX:SurvivoRatio](#-xxsurvivoratio)
+    * [-XX:NewRatio](#-xxnewratio)
+    * [几种常用的内存调试工具](#几种常用的内存调试工具)
+* [六、请谈谈你对ooM的认识](#六、请谈谈你对oom的认识)
+    * [1、Java.lang.StackOverflowError](#1、javalangstackoverflowerror)
+    * [2.Java.lang.OutOfMemoryError:Java heap space](#2javalangoutofmemoryerrorjava-heap-space)
+    * [3、Java.lang.OutOfMemeoryError:GC overhead limit exceeded](#3、javalangoutofmemeoryerrorgc-overhead-limit-exceeded)
+    * [4、Java.lang.OutOfMemeoryError:Direct buffer memory](#4、javalangoutofmemeoryerrordirect-buffer-memory)
+    * [5、Java.lang.OutOfMemeoryError:unable to create new native thread](#5、javalangoutofmemeoryerrorunable-to-create-new-native-thread)
+    * [6、Java.lang.OutOfMemeoryError:Metaspace](#6、javalangoutofmemeoryerrormetaspace)
+* [七、假如生产环境出现CPU占用过高，请谈谈你的分析思路和定位](#七、假如生产环境出现cpu占用过高，请谈谈你的分析思路和定位)
+    * [案例步骤](#案例步骤)
 * [参考资料](#参考资料)
 <!-- GFM-TOC -->
 
@@ -736,6 +751,152 @@ public class FileSystemClassLoader extends ClassLoader {
                 + className.replace('.', File.separatorChar) + ".class";
     }
 }
+```
+# 五、JVM常见的启动参数
+
+```
+-Xms：初始大小内存，默认为物理内存1/64，等价于-XX:InitialHeapSize
+-Xmx：最大分配内存，默认为物理内存1/4，等价于-XX:MaxHeapSize
+-Xss：设置单个线程的大小，一般默认为512K~1024K，等价于-XX:ThreadStackSize
+-Xmn：设置年轻代大小
+-XX:MetaspaceSize：设置元空间大小，-Xms10m -Xmx10m -XX:MetaspaceSize=1024m -			XX:+PrintFlagsFinal
+-XX:+PrintGCDetails：输出详细GC收集日志信息
+```
+
+##### GC:
+
+![1584590299909](https://github.com/wind0926/JAVA2019/blob/master/image/Java%E5%9F%BA%E7%A1%80/GitHub%E5%9B%BE%E7%89%87/JVM/21.png)
+
+##### FullGC:
+
+![1584590328407](https://github.com/wind0926/JAVA2019/blob/master/image/Java%E5%9F%BA%E7%A1%80/GitHub%E5%9B%BE%E7%89%87/JVM/22.png)
+
+
+
+##### -XX:SurvivoRatio
+
+![1584590456212](https://github.com/wind0926/JAVA2019/blob/master/image/Java%E5%9F%BA%E7%A1%80/GitHub%E5%9B%BE%E7%89%87/JVM/23.png)
+
+![1584590479944](https://github.com/wind0926/JAVA2019/blob/master/image/Java%E5%9F%BA%E7%A1%80/GitHub%E5%9B%BE%E7%89%87/JVM/24.png)
+
+##### -XX:NewRatio
+
+![1584590526472](https://github.com/wind0926/JAVA2019/blob/master/image/Java%E5%9F%BA%E7%A1%80/GitHub%E5%9B%BE%E7%89%87/JVM/25.png)
+
+```
+-XX:MaxTenuringThreshold：设置垃圾最大年龄
+```
+
+![1584590574047](https://github.com/wind0926/JAVA2019/blob/master/image/Java%E5%9F%BA%E7%A1%80/GitHub%E5%9B%BE%E7%89%87/JVM/26.png)
+
+
+
+```
+java -XX:+PrintFlagsInitial   查看初始默认值
+java -XX:+PrintCommandLineFlags -version 查看GC是哪个收集器
+```
+
+
+
+```
+如何查看一个正在运行中的java程序，它的某个JVM参数手否开启，具体值是多少？
+1.命令jps -l 在idea下的terminal窗口下得到类的进程号 ID；
+2.jinfo -flag PrintGCDetails ID //查看某一个正在运行的java程序是否开启打印GC收集细节
+```
+
+
+
+#### 几种常用的内存调试工具
+
+```
+jps:查看虚拟机进程的状况，如进程ID；
+jmap: 用于生成堆转储快照文件(某一时刻的)。
+jhat: 对生成的堆转储快照文件进行分析。
+jstack: 用来生成线程快照(某一时刻的)。生成线程快照的主要目的是定位线程长时停顿的原因(如死锁,死循环,等待 			I/O 等), 通过查看各个线程的调用堆栈,就可以知道没有响应的线程在后台做了什么或者等待什么资源。 
+jstat: 虚拟机统计信息监视工具。如显示垃圾收集的情况,内存使用的情况。
+Jconsole: 主要是内存监控和线程监控。内存监控:可以显示内存的使用情况。线程监控:遇到线程停顿时,可以使用这个			功能。
+```
+
+
+
+# 六、请谈谈你对ooM的认识
+
+##### 1、Java.lang.StackOverflowError
+
+![1584596150937](https://github.com/wind0926/JAVA2019/blob/master/image/Java%E5%9F%BA%E7%A1%80/GitHub%E5%9B%BE%E7%89%87/JVM/27.png)
+
+
+
+##### 2.Java.lang.OutOfMemoryError:Java heap space
+
+![1584596221053](https://github.com/wind0926/JAVA2019/blob/master/image/Java%E5%9F%BA%E7%A1%80/GitHub%E5%9B%BE%E7%89%87/JVM/28.png)
+
+##### 3、Java.lang.OutOfMemeoryError:GC overhead limit exceeded
+
+![1584596263617](https://github.com/wind0926/JAVA2019/blob/master/image/Java%E5%9F%BA%E7%A1%80/GitHub%E5%9B%BE%E7%89%87/JVM/29.png)
+
+
+
+##### 4、Java.lang.OutOfMemeoryError:Direct buffer memory
+
+![1584596443298](https://github.com/wind0926/JAVA2019/blob/master/image/Java%E5%9F%BA%E7%A1%80/GitHub%E5%9B%BE%E7%89%87/JVM/30.png)
+
+
+
+##### 5、Java.lang.OutOfMemeoryError:unable to create new native thread
+
+![1584596553478](https://github.com/wind0926/JAVA2019/blob/master/image/Java%E5%9F%BA%E7%A1%80/GitHub%E5%9B%BE%E7%89%87/JVM/31.png)
+
+
+
+##### 6、Java.lang.OutOfMemeoryError:Metaspace
+
+![1584596612473](https://github.com/wind0926/JAVA2019/blob/master/image/Java%E5%9F%BA%E7%A1%80/GitHub%E5%9B%BE%E7%89%87/JVM/32.png)
+
+```
+使用Java -XX:+PrintFlagsInitial命令查看本机的初始化参数，-XX:MetaspaceSize为21810376B(约20M)
+```
+
+
+
+
+
+# 七、假如生产环境出现CPU占用过高，请谈谈你的分析思路和定位
+
+##### 案例步骤
+
+```
+1、先用top命令找出CPU占比最高的
+```
+
+![1584597046169](https://github.com/wind0926/JAVA2019/blob/master/image/Java%E5%9F%BA%E7%A1%80/GitHub%E5%9B%BE%E7%89%87/JVM/33.png)
+
+
+
+```
+2、 ps -ef或者jps进一步定位，得知是一个怎么样的一个后台程序
+```
+
+```
+3、  定位到具体线程或者代码
+ps -mp 进程 -o THREAD,tid,time
+参数解释：
+-m 显示所有线程
+-p pid进程使用cpu的时间
+-o 该参数后是用户自定义格式
+```
+
+![1584597462852](https://github.com/wind0926/JAVA2019/blob/master/image/Java%E5%9F%BA%E7%A1%80/GitHub%E5%9B%BE%E7%89%87/JVM/34.png)
+
+
+
+```
+4、将需要的线程ID转换为16进制格式(英文小写格式)
+	printf "%x\n"  有问题的线程ID
+```
+
+```
+5、jstack 进程ID | grep tid(16进制线程ID小写英文) -A60
 ```
 
 # 参考资料
