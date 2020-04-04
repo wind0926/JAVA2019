@@ -17,7 +17,7 @@
 
 ## :wink: Redis
 
-- [MySQL基础部分](https://github.com/wind0926/JAVA2019/blob/master/Redis/Redis.md)
+- [Redis](https://github.com/wind0926/JAVA2019/blob/master/Redis/Redis.md)
 
 
 
