@@ -15,6 +15,9 @@
 - [MySQL面试常见问题](https://github.com/wind0926/JAVA2019/blob/master/MySQL/MySQL%E9%9D%A2%E8%AF%95%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98.md)
 
 
+## :wink: Redis
+
+- [MySQL基础部分](https://github.com/wind0926/JAVA2019/blob/master/Redis/Redis.md)
 
 
 
