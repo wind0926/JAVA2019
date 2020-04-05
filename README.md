@@ -17,7 +17,7 @@
 
 ## :wink: Redis
 
-- [Redis](https://github.com/wind0926/JAVA2019/blob/master/Redis/Redis.md)
+- [Redis常见问题](https://github.com/wind0926/JAVA2019/blob/master/Redis/Redis.md)
 
 
 
