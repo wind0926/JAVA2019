@@ -1,87 +1,86 @@
 # 目录
 
-* [一、JavaIO流的分类](#一、javaio流的分类)
+* [一JavaIO流的分类](#一javaio流的分类)
     * [输入流和输出流](#输入流和输出流)
     * [字节流和字符流](#字节流和字符流)
     * [节点流和处理流](#节点流和处理流)
-* [二、InputStream，OutputStream，Reader和Writer](#二、inputstream，outputstream，reader和writer)
-* [三、节点流](#三、节点流)
-* [四、处理流](#四、处理流)
+* [二InputStream，OutputStream，Reader和Writer](#二inputstream，outputstream，reader和writer)
+* [三节点流](#三节点流)
+* [四处理流](#四处理流)
     * [缓冲流](#缓冲流)
     * [转换流](#转换流)
     * [数据流](#数据流)
     * [Print流](#print流)
     * [Object流](#object流)
-* [五、流操作的典型示例](#五、流操作的典型示例)
-* [六、概述](#六、概述)
+* [五流操作的典型示例](#五流操作的典型示例)
+* [六概述](#六概述)
       * [**Channel主要实现：**](#channel主要实现：)
       * [**Buffer主要实现：**](#buffer主要实现：)
       * [**Selector：**](#selector：)
-* [七、Channel介绍](#七、channel介绍)
+* [七Channel介绍](#七channel介绍)
       * [**Channel与流对比：**](#channel与流对比：)
       * [**Channel的主要实现类：**](#channel的主要实现类：)
       * [**示例：**](#示例：)
-* [八、Buffer介绍](#八、buffer介绍)
-      * [**1、Buffer的基本用法**](#1、buffer的基本用法)
-      * [**2、capacity、position、limit、（mark）：**](#2、capacity、position、limit、（mark）：)
-      * [**3、类型：**](#3、类型：)
-      * [**4、分配（allocate）：**](#4、分配（allocate）：)
-      * [**5、向Buffer中写数据：**](#5、向buffer中写数据：)
-      * [**6、从Buffer中读取数据：**](#6、从buffer中读取数据：)
-      * [**7、其他方法：**](#7、其他方法：)
-* [九、Scatter/Gather](#九、scattergather)
-      * [**1、Scattering Reads：**](#1、scattering-reads：)
-      * [**2、Gathering Writes：**](#2、gathering-writes：)
-* [十、通道之间的数据传输](#十、通道之间的数据传输)
-      * [**1、transferFrom()：**](#1、transferfrom：)
-      * [**2、transferTo()：**](#2、transferto：)
-* [十一、Selector](#十一、selector)
-      * [**1、为什么使用Selector：**](#1、为什么使用selector：)
-      * [**2、Selector的创建：**](#2、selector的创建：)
-      * [**3、向Selector注册通道：**](#3、向selector注册通道：)
-      * [**4、SelectionKey：**](#4、selectionkey：)
-      * [**5、通过Selector选择通道：**](#5、通过selector选择通道：)
-      * [**6、wakeUp()：**](#6、wakeup：)
-      * [**7、close()：**](#7、close：)
-      * [**8、完整的示例：**](#8、完整的示例：)
-* [十二、FileChannel](#十二、filechannel)
-      * [**1、打开FileChannel：**](#1、打开filechannel：)
-      * [**2、从FileChannel读取数据：**](#2、从filechannel读取数据：)
-      * [**3、向FileChannel写数据：**](#3、向filechannel写数据：)
-      * [**4、关闭FileChannel：**](#4、关闭filechannel：)
-      * [**5、FileChannel的position方法：**](#5、filechannel的position方法：)
-      * [**6、FileChannel的size方法：**](#6、filechannel的size方法：)
-      * [**7、FileChannel的truncate方法：**](#7、filechannel的truncate方法：)
-      * [**8、FileChannel的force方法：**](#8、filechannel的force方法：)
-* [十三、SocketChannel](#十三、socketchannel)
-      * [**1、打开 SocketChannel：**](#1、打开-socketchannel：)
-      * [**2、关闭 SocketChannel：**](#2、关闭-socketchannel：)
-      * [**3、从 SocketChannel 读取数据：**](#3、从-socketchannel-读取数据：)
-      * [**4、写入 SocketChannel：**](#4、写入-socketchannel：)
-      * [**5、非阻塞模式：**](#5、非阻塞模式：)
-      * [**6、非阻塞模式与选择器：**](#6、非阻塞模式与选择器：)
-* [十四、ServerSocketChannel](#十四、serversocketchannel)
-      * [**1、打开 ServerSocketChannel：**](#1、打开-serversocketchannel：)
-      * [**2、关闭 ServerSocketChannel：**](#2、关闭-serversocketchannel：)
-      * [**3、监听新进来的连接：**](#3、监听新进来的连接：)
-      * [**4、非阻塞模式：**](#4、非阻塞模式：)
-* [十五、DatagramChannel](#十五、datagramchannel)
-      * [**1、打开 DatagramChannel：**](#1、打开-datagramchannel：)
-      * [**2、接收数据：**](#2、接收数据：)
-      * [**3、发送数据：**](#3、发送数据：)
-      * [**4、连接到特定的地址：**](#4、连接到特定的地址：)
-      * [**5、例子:：**](#5、例子：)
-* [十六、DatagramChannel](#十六、datagramchannel)
-      * [**1、创建管道：**](#1、创建管道：)
-      * [**2、向管道写数据：**](#2、向管道写数据：)
-      * [**3、从管道读取数据：**](#3、从管道读取数据：)
-* [十七、NIO与IO](#十七、nio与io)
-* [十八、参考资料](#十八、参考资料)
+* [八Buffer介绍](#八buffer介绍)
+      * [**1Buffer的基本用法**](#1buffer的基本用法)
+      * [**2capacity、position、limit、（mark）：**](#2capacity、position、limit、（mark）：)
+      * [**3类型：**](#3类型：)
+      * [**4分配（allocate）：**](#4分配（allocate）：)
+      * [**5向Buffer中写数据：**](#5向buffer中写数据：)
+      * [**6从Buffer中读取数据：**](#6从buffer中读取数据：)
+      * [**7其他方法：**](#7其他方法：)
+* [九Scatter/Gather](#九scattergather)
+      * [**1Scattering Reads：**](#1scattering-reads：)
+      * [**2Gathering Writes：**](#2gathering-writes：)
+* [十通道之间的数据传输](#十通道之间的数据传输)
+      * [**1transferFrom()：**](#1transferfrom：)
+      * [**2transferTo()：**](#2transferto：)
+* [十一Selector](#十一selector)
+      * [**1为什么使用Selector：**](#1为什么使用selector：)
+      * [**2Selector的创建：**](#2selector的创建：)
+      * [**3向Selector注册通道：**](#3向selector注册通道：)
+      * [**4SelectionKey：**](#4selectionkey：)
+      * [**5通过Selector选择通道：**](#5通过selector选择通道：)
+      * [**6wakeUp()：**](#6wakeup：)
+      * [**7close()：**](#7close：)
+      * [**8完整的示例：**](#8完整的示例：)
+* [十二FileChannel](#十二filechannel)
+      * [**1打开FileChannel：**](#1打开filechannel：)
+      * [**2从FileChannel读取数据：**](#2从filechannel读取数据：)
+      * [**3向FileChannel写数据：**](#3向filechannel写数据：)
+      * [**4关闭FileChannel：**](#4关闭filechannel：)
+      * [**5FileChannel的position方法：**](#5filechannel的position方法：)
+      * [**6FileChannel的size方法：**](#6filechannel的size方法：)
+      * [**7FileChannel的truncate方法：**](#7filechannel的truncate方法：)
+      * [**8FileChannel的force方法：**](#8filechannel的force方法：)
+* [十三SocketChannel](#十三socketchannel)
+      * [**1打开 SocketChannel：**](#1打开-socketchannel：)
+      * [**2关闭 SocketChannel：**](#2关闭-socketchannel：)
+      * [**3从 SocketChannel 读取数据：**](#3从-socketchannel-读取数据：)
+      * [**4写入 SocketChannel：**](#4写入-socketchannel：)
+      * [**5非阻塞模式：**](#5非阻塞模式：)
+      * [**6非阻塞模式与选择器：**](#6非阻塞模式与选择器：)
+* [十四ServerSocketChannel](#十四serversocketchannel)
+      * [**1打开 ServerSocketChannel：**](#1打开-serversocketchannel：)
+      * [**2关闭 ServerSocketChannel：**](#2关闭-serversocketchannel：)
+      * [**3监听新进来的连接：**](#3监听新进来的连接：)
+      * [**4非阻塞模式：**](#4非阻塞模式：)
+* [十五DatagramChannel](#十五datagramchannel)
+      * [**1打开 DatagramChannel：**](#1打开-datagramchannel：)
+      * [**2接收数据：**](#2接收数据：)
+      * [**3发送数据：**](#3发送数据：)
+      * [**4连接到特定的地址：**](#4连接到特定的地址：)
+      * [**5例子:：**](#5例子：)
+* [十六DatagramChannel](#十六datagramchannel)
+      * [**1创建管道：**](#1创建管道：)
+      * [**2向管道写数据：**](#2向管道写数据：)
+      * [**3从管道读取数据：**](#3从管道读取数据：)
+* [十七NIO与IO](#十七nio与io)
+* [十八参考资料](#十八参考资料)
 
 
 
-
-# 一、JavaIO流的分类
+# 一JavaIO流的分类
 
 在Java中，对于数据的输入/输出（I/O）操作以“流”（stream）方式进行，数据的来源可以是文件、网络、内存缓存等。 
 
@@ -125,7 +124,7 @@ J2SDK提供了各种各样的“流”，用以操作不同种类的数据，J2S
 
 
 
-# 二、InputStream，OutputStream，Reader和Writer
+# 二InputStream，OutputStream，Reader和Writer
 
 **InputStream**是所有字节输入流的超类，其包含的基本方法如下。 
 
@@ -267,7 +266,7 @@ void close() throws IOException;
 ```
 
 
-# 三、节点流
+# 三节点流
 
 根据数据来源不同对节点流进行分类如下图。
 
@@ -275,7 +274,7 @@ void close() throws IOException;
 
 
 
-# 四、处理流  
+# 四处理流  
 
 ### 缓冲流
 
@@ -468,7 +467,7 @@ class User implements Serializable {
 
 
 
-# 五、流操作的典型示例
+# 五流操作的典型示例
 
 
 
@@ -557,7 +556,7 @@ public static void copyFolder(String sourcePath, String targetPath) {
 ```
 
 
-# 六、概述
+# 六概述
 
 java NIO 开始于JDK1.4，其核心元件有：**Channel、Buffer、Selector**。
 Channel可以理解为标准IO中流，数据可以从Channel读到Buffer中，也可以从Buffer 写到Channel中。
@@ -579,7 +578,7 @@ Selector允许单线程处理多个 Channel。如果你的应用打开了多个�
 
 
 
-# 七、Channel介绍
+# 七Channel介绍
 
 #### **Channel与流对比：**
 
@@ -619,11 +618,11 @@ Selector允许单线程处理多个 Channel。如果你的应用打开了多个�
 
 
 
-# 八、Buffer介绍
+# 八Buffer介绍
 
 缓冲区本质上是一块可以写入数据，然后可以从中读取数据的内存。这块内存被包装成NIO Buffer对象，并提供了一组方法，用来方便的访问该块内存。
 
-#### **1、Buffer的基本用法**
+#### **1Buffer的基本用法**
 
 **Buffer读写数据步骤：**
 \- 写入数据到Buffer
@@ -657,7 +656,7 @@ while (bytesRead != -1) {
 aFile.close();
 ```
 
-#### **2、capacity、position、limit、（mark）：**
+#### **2capacity、position、limit、（mark）：**
 
 position和limit的含义取决于Buffer处在读模式还是写模式。不管Buffer处在什么模式，capacity的含义总是一样的。
 
@@ -680,11 +679,11 @@ position和limit的含义取决于Buffer处在读模式还是写模式。不管B
 
 当切换Buffer到读模式时， limit表示你最多能读到多少数据。因此，当切换Buffer到读模式时，limit会被设置成写模式下的position值。换句话说，你能读到之前写入的所有数据（limit被设置成已写数据的数量，这个值在写模式下就是position）
 
-#### **3、类型：**
+#### **3类型：**
 
 见上边叙述…
 
-#### **4、分配（allocate）：**
+#### **4分配（allocate）：**
 
 要想获得一个Buffer对象首先要进行分配。 每一个Buffer类都有一个allocate方法。下面是一个分配48字节capacity的ByteBuffer的例子。
 
@@ -698,7 +697,7 @@ ByteBuffer buf = ByteBuffer.allocate(48);
 CharBuffer buf = CharBuffer.allocate(1024);
 ```
 
-#### **5、向Buffer中写数据：**
+#### **5向Buffer中写数据：**
 
 写数据到Buffer有两种方式：
 \- 从Channel写到Buffer
@@ -723,7 +722,7 @@ flip方法将Buffer从写模式切换到读模式。调用flip()方法会将posi
 
 换句话说，position现在用于标记读的位置，limit表示之前写进了多少个byte、char等 —— 现在能读取多少个byte、char等。
 
-#### **6、从Buffer中读取数据：**
+#### **6从Buffer中读取数据：**
 
 从Buffer中读取数据有两种方式：
 **-** 从Buffer读取数据到Channel。
@@ -744,7 +743,7 @@ byte aByte = buf.get();
 
 get方法有很多版本，允许你以不同的方式从Buffer中读取数据。例如，从指定position读取，或者从Buffer中读取数据到字节数组。更多Buffer实现的细节参考JavaDoc。
 
-#### **7、其他方法：**
+#### **7其他方法：**
 
 **rewind()方法：**
 Buffer.rewind()将position设回0，所以你可以重读Buffer中的所有数据。limit保持不变，仍然表示能从Buffer中读取多少个元素（byte、char等）。
@@ -787,7 +786,7 @@ compareTo()方法比较两个Buffer的剩余元素(byte、char等)， 如果满�
 
 
 
-# 九、Scatter/Gather
+# 九Scatter/Gather
 
 分散（scatter）从Channel中读取是指在读操作时将读取的数据写入多个buffer中。因此，Channel将从Channel中读取的数据“分散（scatter）”到多个Buffer中。
 
@@ -795,7 +794,7 @@ compareTo()方法比较两个Buffer的剩余元素(byte、char等)， 如果满�
 
 scatter / gather经常用于需要将传输的数据分开处理的场合，例如传输一个由消息头和消息体组成的消息，你可能会将消息体和消息头分散到不同的buffer中，这样你可以方便的处理消息头和消息体。
 
-#### **1、Scattering Reads：**
+#### **1Scattering Reads：**
 
 Scattering Reads是指数据从一个channel读取到多个buffer中。如下图描述：
 ![这里写图片描述](https://github.com/wind0926/JAVA2019/blob/master/image/Java%E5%9F%BA%E7%A1%80/JavaIO%26NIO/7.png)
@@ -814,7 +813,7 @@ channel.read(bufferArray);
 
 Scattering Reads在移动下一个buffer前，必须填满当前的buffer，这也意味着它不适用于动态消息(译者注：消息大小不固定)。换句话说，如果存在消息头和消息体，消息头必须完成填充（例如 128byte），Scattering Reads才能正常工作。
 
-#### **2、Gathering Writes：**
+#### **2Gathering Writes：**
 
 Gathering Writes是指数据从多个buffer写入到同一个channel。如下图描述：
 ![这里写图片描述](https://github.com/wind0926/JAVA2019/blob/master/image/Java%E5%9F%BA%E7%A1%80/JavaIO%26NIO/8.png)
@@ -833,9 +832,9 @@ buffers数组是write()方法的入参，write()方法会按照buffer在数组�
 
 
 
-# 十、通道之间的数据传输
+# 十通道之间的数据传输
 
-#### **1、transferFrom()：**
+#### **1transferFrom()：**
 
 FileChannel的transferFrom()方法可以将数据从源通道传输到FileChannel中（译者注：这个方法在JDK文档中的解释为将字节从给定的可读取字节通道传输到此通道的文件中）。下面是一个简单的例子：
 
@@ -855,7 +854,7 @@ toChannel.transferFrom(position, count, fromChannel);
 方法的输入参数position表示从position处开始向目标文件写入数据，count表示最多传输的字节数。如果源通道的剩余空间小于 count 个字节，则所传输的字节数要小于请求的字节数。
 此外要注意，在SoketChannel的实现中，SocketChannel只会传输此刻准备好的数据（可能不足count字节）。因此，SocketChannel可能不会将请求的所有数据(count个字节)全部传输到FileChannel中。
 
-#### **2、transferTo()：**
+#### **2transferTo()：**
 
 transferTo()方法将数据从FileChannel传输到其他的channel中。下面是一个简单的例子：
 
@@ -876,24 +875,24 @@ fromChannel.transferTo(position, count, toChannel);12345678910
 
 
 
-# 十一、Selector
+# 十一Selector
 
 Selector（选择器）是Java NIO中能够检测一到多个NIO通道，并能够知晓通道是否为诸如读写事件做好准备的组件。这样，一个单独的线程可以管理多个channel，从而管理多个网络连接。
 
-#### **1、为什么使用Selector：**
+#### **1为什么使用Selector：**
 
 仅用单个线程来处理多个Channels的好处是，只需要更少的线程来处理通道。事实上，可以只用一个线程处理所有的通道。对于操作系统来说，线程之间上下文切换的开销很大，而且每个线程都要占用系统的一些资源（如内存）。因此，使用的线程越少越好。
 
 但是，需要记住，现代的操作系统和CPU在多任务方面表现的越来越好，所以多线程的开销随着时间的推移，变得越来越小了。实际上，如果一个CPU有多个内核，不使用多任务可能是在浪费CPU能力。不管怎么说，关于那种设计的讨论应该放在另一篇不同的文章中。在这里，只要知道使用Selector能够处理多个通道就足够了。
 
-#### **2、Selector的创建：**
+#### **2Selector的创建：**
 
 ```java
 Selector selector = Selector.open();
 
 ```
 
-#### **3、向Selector注册通道：**
+#### **3向Selector注册通道：**
 
 为了将Channel和Selector配合使用，必须将channel注册到selector上。通过SelectableChannel.register()方法来实现，如下：
 
@@ -925,7 +924,7 @@ int interestSet = SelectionKey.OP_READ | SelectionKey.OP_WRITE;
 
 ```
 
-#### **4、SelectionKey：**
+#### **4SelectionKey：**
 
 当向Selector注册Channel时，register()方法会返回一个SelectionKey对象。这个对象包含了一些你感兴趣的属性：
 **- interest集合**
@@ -989,7 +988,7 @@ SelectionKey key = channel.register(selector, SelectionKey.OP_READ, theObject);
 
 ```
 
-#### **5、通过Selector选择通道：**
+#### **5通过Selector选择通道：**
 
 **select()方法：**
 一旦向Selector注册了一或多个通道，就可以调用几个重载的select()方法。这些方法返回你所感兴趣的事件（如连接、接受、读或写）已经准备就绪的那些通道。换句话说，如果你对“读就绪”的通道感兴趣，select()方法会返回读事件已经就绪的那些通道。
@@ -1043,17 +1042,17 @@ while(keyIterator.hasNext()) {
 
 SelectionKey.channel()方法返回的通道需要转型成你要处理的类型，如ServerSocketChannel或SocketChannel等。
 
-#### **6、wakeUp()：**
+#### **6wakeUp()：**
 
 某个线程调用select()方法后阻塞了，即使没有通道已经就绪，也有办法让其从select()方法返回。只要让其它线程在第一个线程调用select()方法的那个对象上调用Selector.wakeup()方法即可。阻塞在select()方法上的线程会立马返回。
 
 如果有其它线程调用了wakeup()方法，但当前没有线程阻塞在select()方法上，下个调用select()方法的线程会立即“醒来（wake up）”。
 
-#### **7、close()：**
+#### **7close()：**
 
 用完Selector后调用其close()方法会关闭该Selector，且使注册到该Selector上的所有SelectionKey实例无效。通道本身并不会关闭。
 
-#### **8、完整的示例：**
+#### **8完整的示例：**
 
 这里有一个完整的示例，打开一个Selector，注册一个通道注册到这个Selector上(通道的初始化过程略去),然后持续监控这个Selector的四种事件（接受，连接，读，写）是否就绪。
 
@@ -1084,13 +1083,13 @@ while(true) {
 
 
 
-# 十二、FileChannel
+# 十二FileChannel
 
 Java NIO中的FileChannel是一个连接到文件的通道。可以通过文件通道读写文件。
 
 FileChannel无法设置为非阻塞模式，它总是运行在阻塞模式下。
 
-#### **1、打开FileChannel：**
+#### **1打开FileChannel：**
 
 在使用FileChannel之前，必须先打开它。但是，我们无法直接打开一个FileChannel，需要通过使用一个InputStream、OutputStream或RandomAccessFile来获取一个FileChannel实例。下面是通过RandomAccessFile打开FileChannel的示例：
 
@@ -1100,7 +1099,7 @@ FileChannel inChannel = aFile.getChannel();
 
 ```
 
-#### **2、从FileChannel读取数据：**
+#### **2从FileChannel读取数据：**
 
 调用多个read()方法之一从FileChannel中读取数据。如：
 
@@ -1114,7 +1113,7 @@ int bytesRead = inChannel.read(buf);
 
 然后，调用FileChannel.read()方法。该方法将数据从FileChannel读取到Buffer中。read()方法返回的int值表示了有多少字节被读到了Buffer中。如果返回-1，表示到了文件末尾。
 
-#### **3、向FileChannel写数据：**
+#### **3向FileChannel写数据：**
 
 使用FileChannel.write()方法向FileChannel写数据，该方法的参数是一个Buffer。如：
 
@@ -1133,7 +1132,7 @@ while(buf.hasRemaining()) {
 
 注意FileChannel.write()是在while循环中调用的。因为无法保证write()方法一次能向FileChannel写入多少字节，因此需要重复调用write()方法，直到Buffer中已经没有尚未写入通道的字节。
 
-#### **4、关闭FileChannel：**
+#### **4关闭FileChannel：**
 
 用完FileChannel后必须将其关闭。如：
 
@@ -1142,7 +1141,7 @@ channel.close();
 
 ```
 
-#### **5、FileChannel的position方法：**
+#### **5FileChannel的position方法：**
 
 有时可能需要在FileChannel的某个特定位置进行数据的读/写操作。可以通过调用position()方法获取FileChannel的当前位置。
 
@@ -1159,7 +1158,7 @@ channel.position(pos +123);
 
 如果将位置设置在文件结束符之后，然后向通道中写数据，文件将撑大到当前位置并写入数据。这可能导致“文件空洞”，磁盘上物理文件中写入的数据间有空隙。
 
-#### **6、FileChannel的size方法：**
+#### **6FileChannel的size方法：**
 
 FileChannel实例的size()方法将返回该实例所关联文件的大小。如:
 
@@ -1167,7 +1166,7 @@ FileChannel实例的size()方法将返回该实例所关联文件的大小。如
 long fileSize = channel.size();
 ```
 
-#### **7、FileChannel的truncate方法：**
+#### **7FileChannel的truncate方法：**
 
 可以使用FileChannel.truncate()方法截取一个文件。截取文件时，文件将中指定长度后面的部分将被删除。如：
 
@@ -1177,7 +1176,7 @@ channel.truncate(1024);
 
 这个例子截取文件的前1024个字节。
 
-#### **8、FileChannel的force方法：**
+#### **8FileChannel的force方法：**
 
 FileChannel.force()方法将通道里尚未写入磁盘的数据强制写到磁盘上。出于性能方面的考虑，操作系统会将数据缓存在内存中，所以无法保证写入到FileChannel里的数据一定会即时写到磁盘上。要保证这一点，需要调用force()方法。
 
@@ -1191,14 +1190,14 @@ channel.force(true);
 
 
 
-# 十三、SocketChannel
+# 十三SocketChannel
 
 Java NIO中的SocketChannel是一个连接到TCP网络套接字的通道。可以通过以下2种方式创建SocketChannel：
 
 - 打开一个SocketChannel并连接到互联网上的某台服务器。
 - 一个新连接到达ServerSocketChannel时，会创建一个SocketChannel。
 
-#### **1、打开 SocketChannel：**
+#### **1打开 SocketChannel：**
 
 下面是SocketChannel的打开方式：
 
@@ -1207,7 +1206,7 @@ SocketChannel socketChannel = SocketChannel.open();
 socketChannel.connect(new InetSocketAddress("http://jenkov.com", 80));
 ```
 
-#### **2、关闭 SocketChannel：**
+#### **2关闭 SocketChannel：**
 
 当用完SocketChannel之后调用SocketChannel.close()关闭SocketChannel：
 
@@ -1215,7 +1214,7 @@ socketChannel.connect(new InetSocketAddress("http://jenkov.com", 80));
 socketChannel.close();
 ```
 
-#### **3、从 SocketChannel 读取数据：**
+#### **3从 SocketChannel 读取数据：**
 
 要从SocketChannel中读取数据，调用一个read()的方法之一。以下是例子：
 
@@ -1228,7 +1227,7 @@ int bytesRead = socketChannel.read(buf);
 
 然后，调用SocketChannel.read()。该方法将数据从SocketChannel 读到Buffer中。read()方法返回的int值表示读了多少字节进Buffer里。如果返回的是-1，表示已经读到了流的末尾（连接关闭了）。
 
-#### **4、写入 SocketChannel：**
+#### **4写入 SocketChannel：**
 
 写数据到SocketChannel用的是SocketChannel.write()方法，该方法以一个Buffer作为参数。示例如下：
 
@@ -1245,7 +1244,7 @@ while(buf.hasRemaining()) {
 
 注意SocketChannel.write()方法的调用是在一个while循环中的。Write()方法无法保证能写多少字节到SocketChannel。所以，我们重复调用write()直到Buffer没有要写的字节为止。
 
-#### **5、非阻塞模式：**
+#### **5非阻塞模式：**
 
 可以设置 SocketChannel 为非阻塞模式（non-blocking mode）.设置之后，就可以在异步模式下调用connect(), read() 和write()了。
 
@@ -1269,13 +1268,13 @@ while(! socketChannel.finishConnect() ){
 
 非阻塞模式下,read()方法在尚未读取到任何数据时可能就返回了。所以需要关注它的int返回值，它会告诉你读取了多少字节。
 
-#### **6、非阻塞模式与选择器：**
+#### **6非阻塞模式与选择器：**
 
 非阻塞模式与选择器搭配会工作的更好，通过将一或多个SocketChannel注册到Selector，可以询问选择器哪个通道已经准备好了读取，写入等。Selector与SocketChannel的搭配使用会在后面详讲。
 
 
 
-# 十四、ServerSocketChannel
+# 十四ServerSocketChannel
 
 Java NIO中的 ServerSocketChannel 是一个可以监听新进来的TCP连接的通道, 就像标准IO中的ServerSocket一样。ServerSocketChannel类在 java.nio.channels包中。
 
@@ -1292,7 +1291,7 @@ while(true){
 }
 ```
 
-#### **1、打开 ServerSocketChannel：**
+#### **1打开 ServerSocketChannel：**
 
 通过调用 ServerSocketChannel.open() 方法来打开ServerSocketChannel.如：
 
@@ -1300,7 +1299,7 @@ while(true){
 ServerSocketChannel serverSocketChannel = ServerSocketChannel.open();
 ```
 
-#### **2、关闭 ServerSocketChannel：**
+#### **2关闭 ServerSocketChannel：**
 
 通过调用ServerSocketChannel.close() 方法来关闭ServerSocketChannel. 如：
 
@@ -1308,7 +1307,7 @@ ServerSocketChannel serverSocketChannel = ServerSocketChannel.open();
 serverSocketChannel.close();
 ```
 
-#### **3、监听新进来的连接：**
+#### **3监听新进来的连接：**
 
 通过 ServerSocketChannel.accept() 方法监听新进来的连接。当 accept()方法返回的时候,它返回一个包含新进来的连接的 SocketChannel。因此, accept()方法会一直阻塞到有新连接到达。
 
@@ -1324,7 +1323,7 @@ while(true){
 
 当然,也可以在while循环中使用除了true以外的其它退出准则。
 
-#### **4、非阻塞模式：**
+#### **4非阻塞模式：**
 
 ServerSocketChannel可以设置成非阻塞模式。在非阻塞模式下，accept() 方法会立刻返回，如果还没有新进来的连接,返回的将是null。 因此，需要检查返回的SocketChannel是否是null.如：
 
@@ -1344,11 +1343,11 @@ while(true){
 
 
 
-# 十五、DatagramChannel
+# 十五DatagramChannel
 
 Java NIO中的DatagramChannel是一个能收发UDP包的通道。因为UDP是无连接的网络协议，所以不能像其它通道那样读取和写入。它发送和接收的是数据包。
 
-#### **1、打开 DatagramChannel：**
+#### **1打开 DatagramChannel：**
 
 下面是 DatagramChannel 的打开方式：
 
@@ -1359,7 +1358,7 @@ channel.socket().bind(new InetSocketAddress(9999));
 
 这个例子打开的 DatagramChannel可以在UDP端口9999上接收数据包。
 
-#### **2、接收数据：**
+#### **2接收数据：**
 
 通过receive()方法从DatagramChannel接收数据，如：
 
@@ -1371,7 +1370,7 @@ channel.receive(buf);
 
 receive()方法会将接收到的数据包内容复制到指定的Buffer. 如果Buffer容不下收到的数据，多出的数据将被丢弃。
 
-#### **3、发送数据：**
+#### **3发送数据：**
 
 通过send()方法从DatagramChannel发送数据，如:
 
@@ -1386,11 +1385,11 @@ int bytesSent = channel.send(buf, new InetSocketAddress("jenkov.com", 80));
 
 这个例子发送一串字符到”jenkov.com”服务器的UDP端口80。 因为服务端并没有监控这个端口，所以什么也不会发生。也不会通知你发出的数据包是否已收到，因为UDP在数据传送方面没有任何保证。
 
-#### **4、连接到特定的地址：**
+#### **4连接到特定的地址：**
 
 可以将DatagramChannel“连接”到网络中的特定地址的。由于UDP是无连接的，连接到特定地址并不会像TCP通道那样创建一个真正的连接。而是锁住DatagramChannel ，让其只能从特定地址收发数据。
 
-#### **5、例子:：**
+#### **5例子:：**
 
 ```java
 channel.connect(new InetSocketAddress("jenkov.com", 80));
@@ -1405,14 +1404,14 @@ int bytesWritten = channel.write(but);
 
 
 
-# 十六、DatagramChannel
+# 十六DatagramChannel
 
 Java NIO 管道是2个线程之间的单向数据连接。Pipe有一个source通道和一个sink通道。数据会被写到sink通道，从source通道读取。
 
 这里是Pipe原理的图示：
 ![这里写图片描述](https://github.com/wind0926/JAVA2019/blob/master/image/Java%E5%9F%BA%E7%A1%80/JavaIO%26NIO/9.png)
 
-#### **1、创建管道：**
+#### **1创建管道：**
 
 通过Pipe.open()方法打开管道。例如：
 
@@ -1420,7 +1419,7 @@ Java NIO 管道是2个线程之间的单向数据连接。Pipe有一个source通
 Pipe pipe = Pipe.open();
 ```
 
-#### **2、向管道写数据：**
+#### **2向管道写数据：**
 
 要向管道写数据，需要访问sink通道。像这样：
 
@@ -1442,7 +1441,7 @@ while(buf.hasRemaining()) {
 }
 ```
 
-#### **3、从管道读取数据：**
+#### **3从管道读取数据：**
 
 从读取管道的数据，需要访问source通道，像这样：
 
@@ -1461,7 +1460,7 @@ read()方法返回的int值会告诉我们多少字节被读进了缓冲区。
 
 
 
-# 十七、NIO与IO
+# 十七NIO与IO
 
 Java NIO和IO的主要区别：
 
@@ -1474,7 +1473,7 @@ IO                NIO
 
 
 
-# 十八、参考资料
+# 十八参考资料
 
  https://blog.csdn.net/Somhu/article/details/78663755 
 
