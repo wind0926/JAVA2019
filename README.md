@@ -31,6 +31,7 @@
 
 ## :stuck_out_tongue_winking_eye: 操作系统
 - [操作系统知识点总结](https://github.com/wind0926/JAVA2019/blob/master/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F.md)
+- [Linux知识点总结](https://github.com/wind0926/JAVA2019/blob/master/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/Linux.md)
 
 
 
