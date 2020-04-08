@@ -33,6 +33,8 @@
 - [操作系统知识点总结](https://github.com/wind0926/JAVA2019/blob/master/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F.md)
 - [Linux知识点总结](https://github.com/wind0926/JAVA2019/blob/master/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/Linux.md)
 
+## :innocent: 设计模式
+- [设计模式总结](https://github.com/youlookwhat/DesignPattern/blob/master/README.md)
 
 
 
