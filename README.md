@@ -41,7 +41,7 @@
 
 ## :heart_eyes: 计算机组成
 
--	  [存储单元的字地址](https://github.com/wind0926/JAVA2020/blob/master/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90/%E5%AD%98%E5%82%A8%E5%8D%95%E5%85%83%E7%9A%84%E5%AD%97%E5%9C%B0%E5%9D%80%EF%BC%9A.md)
+- [存储单元的字地址](https://github.com/wind0926/JAVA2020/blob/master/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90/%E5%AD%98%E5%82%A8%E5%8D%95%E5%85%83%E7%9A%84%E5%AD%97%E5%9C%B0%E5%9D%80%EF%BC%9A.md)
 
 ## :heart_eyes: 计算机网络
 
