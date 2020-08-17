@@ -1,16 +1,3 @@
-import cn.tuhu.mybatisPlus.beans.Employee;
-import cn.tuhu.mybatisPlus.mapper.EmployeeMapper;
-import com.baomidou.mybatisplus.mapper.EntityWrapper;
-import com.baomidou.mybatisplus.plugins.Page;
-import org.junit.Test;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
-
-
-import javax.sql.DataSource;
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.util.*;
 
 
 /**
