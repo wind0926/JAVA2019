@@ -2,9 +2,9 @@
 <project version="4">
   <component name="RemoteRepositoriesConfiguration">
     <remote-repository>
-      <option name="id" value="tuhu_repo" />
-      <option name="name" value="tuhu_repo" />
-      <option name="url" value="http://maven.tuhu.work:8081/nexus/content/groups/public" />
+      <option name="id" value="_repo" />
+      <option name="name" value="_repo" />
+      <option name="url" value="http://maven.work:8081/nexus/content/groups/public" />
     </remote-repository>
     <remote-repository>
       <option name="id" value="central" />
