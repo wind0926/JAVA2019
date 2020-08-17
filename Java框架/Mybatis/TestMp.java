@@ -115,7 +115,7 @@ public class TestMp {
 //        初始化Employee对象
         Employee employee = new Employee();
         employee.setLastName("MP");
-        employee.setEmail("mp@tuhu.cn");
+        employee.setEmail("mp@sdv.cn");
 //        employee.setGender(1);
         employee.setAge(22);
         //插入到数据库,根据传递进来实体类对象，做非空判断，只插入有数据的字段
