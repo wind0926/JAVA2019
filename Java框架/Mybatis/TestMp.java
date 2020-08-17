@@ -139,7 +139,7 @@ public class TestMp {
     public void testEntityWrapperUpdate(){
         Employee employee = new Employee();
         employee.setLastName("唐立磊");
-        employee.setEmail("tanglilei@tuhu.cn");
+        employee.setEmail("tanglilei@ytasc.cn");
         employee.setGender(0);
         /*
          * UPDATE employee SET lastName=? and  email=? and gender=? WHERE (last_name = ? AND age = ?)
@@ -189,7 +189,7 @@ public class TestMp {
         //2.根据条件进行删除
       /*  HashMap<String, Object> columnMap = new HashMap<>();
         columnMap.put("last_name","MP");
-        columnMap.put("email","mp@tuhu.cn");
+        columnMap.put("email","mp@.cn");
 
         Integer result = employeeMapper.deleteByMap(columnMap);
         System.out.println(result);*/
