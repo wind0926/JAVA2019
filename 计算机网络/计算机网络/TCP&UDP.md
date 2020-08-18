@@ -18,7 +18,7 @@ TCP，提供面向连接的服务，在传送数据之前必须先建立连接�
 
 
 
-![img](https://github.com/wind0926/JAVA2020/blob/master/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/img/1.png)
+![img](https://github.com/wind0926/JAVA2020/blob/master/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/img/img/1.png)
 
 
 
@@ -30,7 +30,7 @@ TCP把连接作为最基本的对象，每一条TCP连接都有两个端点，�
 
 ### TCP报文首部
 
-![img](https://github.com/wind0926/JAVA2020/blob/master/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/2.png)
+![img](https://github.com/wind0926/JAVA2020/blob/master/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/img/2.png)
 
 
 
@@ -70,7 +70,7 @@ TCP把连接作为最基本的对象，每一条TCP连接都有两个端点，�
 
 `IP` 层是「不可靠」的，它不保证网络包的交付、不保证网络包的按序交付、也不保证网络包中的数据的完整性。
 
-![OSI 参考模型与 TCP/IP 的关系](https://github.com/wind0926/JAVA2020/blob/master/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/3.png)
+![OSI 参考模型与 TCP/IP 的关系](https://github.com/wind0926/JAVA2020/blob/master/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/img/3.png)
 
 如果需要保障网络数据包的可靠性，那么就需要由上层（传输层）的 `TCP` 协议来负责。
 
@@ -80,7 +80,7 @@ TCP把连接作为最基本的对象，每一条TCP连接都有两个端点，�
 
 TCP 是**面向连接的、可靠的、基于字节流**的传输层通信协议。
 
-![img](https://github.com/wind0926/JAVA2020/blob/master/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/4.png)
+![img](https://github.com/wind0926/JAVA2020/blob/master/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/img/4.png)
 
 - **面向连接**：一定是「一对一」才能连接，不能像 UDP 协议 可以一个主机同时向多个主机发送消息，也就是一对多是无法做到的；
 
@@ -94,7 +94,7 @@ TCP 是**面向连接的、可靠的、基于字节流**的传输层通信协议
 
 **用于保证可靠性和流量控制维护的某些状态信息，这些信息的组合，包括Socket、序列号和窗口大小称为连接。**
 
-![img](https://github.com/wind0926/JAVA2020/blob/master/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/5.png)
+![img](https://github.com/wind0926/JAVA2020/blob/master/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/img/5.png)
 
 所以我们可以知道，建立一个 TCP 连接是需要客户端与服务器端达成上述三个信息的共识。
 
@@ -115,7 +115,7 @@ TCP 四元组可以唯一的确定一个连接，四元组包括如下：
 
 
 
-![TCP 四元组](https://github.com/wind0926/JAVA2020/blob/master/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/6.png)TCP 四元组
+![TCP 四元组](https://github.com/wind0926/JAVA2020/blob/master/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/img/6.png)TCP 四元组
 
 源地址和目的地址的字段（32位）是在 IP 头部中，作用是通过 IP 协议发送报文给对方主机。
 
@@ -127,7 +127,7 @@ TCP 四元组可以唯一的确定一个连接，四元组包括如下：
 
 因此，客户端 IP 和 端口是可变的，其理论值计算公式如下:
 
-![img](https://github.com/wind0926/JAVA2020/blob/master/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/7.png)
+![img](https://github.com/wind0926/JAVA2020/blob/master/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/img/7.png)
 
 对 IPv4，客户端的 IP 数最多为 `2` 的 `32` 次方，客户端的端口数最多为 `2` 的 `16` 次方，也就是服务端单机最大 TCP 连接数，约为 `2` 的 `48` 次方。
 
@@ -144,7 +144,7 @@ UDP 不提供复杂的控制机制，利用 IP 提供面向「无连接」的通
 
 UDP 协议真的非常简，头部只有 `8` 个字节（ 64 位），UDP 的头部格式如下：
 
-![UDP 头部格式](https://github.com/wind0926/JAVA2020/blob/master/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/8.png)UDP 头部格式
+![UDP 头部格式](https://github.com/wind0926/JAVA2020/blob/master/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/img/8.png)UDP 头部格式
 
 - 目标和源端口：主要是告诉 UDP 协议应该把报文发给哪个进程。
 - 包长度：该字段保存了 UDP 首部的长度跟数据的长度之和。
@@ -203,7 +203,7 @@ UDP 协议真的非常简，头部只有 `8` 个字节（ 64 位），UDP 的头
 
 先说说 TCP 是如何计算负载数据长度：
 
-![img](https://github.com/wind0926/JAVA2020/blob/master/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/9.png)
+![img](https://github.com/wind0926/JAVA2020/blob/master/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/img/9.png)
 
 其中 IP 总长度 和 IP 首部长度，在 IP 首部格式是已知的。TCP 首部长度，则是在 TCP 首部格式已知的，所以就可以求得 TCP 数据的长度。
 
@@ -219,7 +219,7 @@ UDP 协议真的非常简，头部只有 `8` 个字节（ 64 位），UDP 的头
 
 ## TCP连接的建立（三次握手）
 
-![这里写图片描述](https://github.com/wind0926/JAVA2020/blob/master/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/10.png)
+![这里写图片描述](https://github.com/wind0926/JAVA2020/blob/master/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/img/10.png)
 
 > **最开始的时候客户端和服务器都是处于CLOSED状态。主动打开连接的为客户端，被动打开连接的是服务器。**
 
@@ -228,7 +228,7 @@ UDP 协议真的非常简，头部只有 `8` 个字节（ 64 位），UDP 的头
 3. TCP服务器收到请求报文后，如果同意连接，则发出确认报文。确认报文中应该 ACK=1，SYN=1，确认号是ack=x+1，同时也要为自己初始化一个序列号 seq=y，此时，TCP服务器进程进入了SYN-RCVD（同步收到）状态。这个报文也不能携带数据，但是同样要消耗一个序号。
 4. TCP客户进程收到确认后，还要向服务器给出确认。确认报文的ACK=1，ack=y+1，自己的序列号seq=x+1，此时，TCP连接建立，客户端进入ESTABLISHED（已建立连接）状态。TCP规定，ACK报文段可以携带数据，但是如果不携带数据则不消耗序号。
 5. 当服务器收到客户端的确认后也进入ESTABLISHED状态，此后双方就可以开始通信了。
-   ![三次握手](https://github.com/wind0926/JAVA2020/blob/master/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/11.png)
+   ![三次握手](https://github.com/wind0926/JAVA2020/blob/master/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/img/11.png)
 
 #### 为什么TCP客户端最后还要发送一次确认呢？
 
@@ -242,7 +242,7 @@ UDP 协议真的非常简，头部只有 `8` 个字节（ 64 位），UDP 的头
 
 ## TCP连接的释放（四次挥手）
 
-![这里写图片描述](https://github.com/wind0926/JAVA2020/blob/master/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/12.png)
+![这里写图片描述](https://github.com/wind0926/JAVA2020/blob/master/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/img/12.png)
 
 > 数据传输完毕后，双方都可释放连接。最开始的时候，客户端和服务器都是处于ESTABLISHED状态，然后客户端主动关闭，服务器被动关闭。
 
@@ -253,7 +253,7 @@ UDP 协议真的非常简，头部只有 `8` 个字节（ 64 位），UDP 的头
 5. 客户端收到服务器的连接释放报文后，必须发出确认，ACK=1，ack=w+1，而自己的序列号是seq=u+1，此时，客户端就进入了TIME-WAIT（时间等待）状态。注意此时TCP连接还没有释放，必须经过2∗*∗MSL（最长报文段寿命）的时间后，当客户端撤销相应的TCB后，才进入CLOSED状态。
 6. 服务器只要收到了客户端发出的确认，立即进入CLOSED状态。同样，撤销TCB后，就结束了这次的TCP连接。可以看到，服务器结束TCP连接的时间要比客户端早一些。
 
-![四次挥手](https://github.com/wind0926/JAVA2020/blob/master/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/13.png)
+![四次挥手](https://github.com/wind0926/JAVA2020/blob/master/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/img/13.png)
 
 #### 为什么客户端最后还要等待2MSL？
 
@@ -354,7 +354,7 @@ TCP 滑动窗口分为两种: **发送窗口**和**接收窗口**。
 
 发送端的滑动窗口结构如下:
 
-![img](https://github.com/wind0926/JAVA2020/blob/master/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/14.png)
+![img](https://github.com/wind0926/JAVA2020/blob/master/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/img/14.png)
 
 其中包含四大部分:
 
@@ -365,7 +365,7 @@ TCP 滑动窗口分为两种: **发送窗口**和**接收窗口**。
 
 其中有一些重要的概念，我标注在图中:
 
-![img](https://github.com/wind0926/JAVA2020/blob/master/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/15.png)
+![img](https://github.com/wind0926/JAVA2020/blob/master/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/img/15.png)
 
 发送窗口就是图中被框住的范围。SND 即`send`, WND 即`window`, UNA 即`unacknowledged`, 表示未被确认，NXT 即`next`, 表示下一个发送的位置。
 
@@ -373,7 +373,7 @@ TCP 滑动窗口分为两种: **发送窗口**和**接收窗口**。
 
 接收端的窗口结构如下:
 
-![img](https://github.com/wind0926/JAVA2020/blob/master/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/16.png)
+![img](https://github.com/wind0926/JAVA2020/blob/master/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/img/16.png)
 
 REV 即 `receive`，NXT 表示下一个接收的位置，WND 表示接收窗口大小。
 
@@ -399,7 +399,7 @@ REV 即 `receive`，NXT 表示下一个接收的位置，WND 表示接收窗口�
 
 ## 能不能说说 TCP 的拥塞控制？
 
-![img](https://github.com/wind0926/JAVA2020/blob/master/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/17.png)
+![img](https://github.com/wind0926/JAVA2020/blob/master/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/img/17.png)
 
 上一节所说的**流量控制**发生在发送端跟接收端之间，并没有考虑到整个网络环境的影响，如果说当前网络特别差，特别容易丢包，那么发送端就应该注意一些了。而这，也正是`拥塞控制`需要处理的问题。
 
@@ -481,7 +481,7 @@ REV 即 `receive`，NXT 表示下一个接收的位置，WND 表示接收窗口�
 
 #### 快速恢复
 
-![img](https://github.com/wind0926/JAVA2020/blob/master/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/18.png)
+![img](https://github.com/wind0926/JAVA2020/blob/master/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/img/18.png)
 
 当然，发送端收到三次重复 ACK 之后，发现丢包，觉得现在的网络已经有些拥塞了，自己会进入**快速恢复**阶段。
 
@@ -580,7 +580,7 @@ HTTP(Hyper Text Transfer Protocol)超文本传输协议
 
 Http协议由Http请求和Http响应组成，当用浏览器访问某个网站时，浏览器将请求封装成一个Http请求发送给服务器站点，服务器接收到请求后会组织响应数据封装成一个Http响应返回给浏览器。
 
-[![img](https://github.com/wind0926/JAVA2020/blob/master/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/19.jpg)](https://github.com/wind0926/JAVA2019/blob/master/image/Java基础/GitHub图片/JavaWeb/1.jpg)
+[![img](https://github.com/wind0926/JAVA2020/blob/master/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/img/19.jpg)](https://github.com/wind0926/JAVA2019/blob/master/image/Java基础/GitHub图片/JavaWeb/1.jpg)
 
 ### Http请求
 
@@ -644,7 +644,7 @@ http://localhost:8080...?username=zhangsan&password=123
 
 ### Http响应
 
-[![img](https://github.com/wind0926/JAVA2020/blob/master/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/20.jpg)](https://github.com/wind0926/JAVA2019/blob/master/image/Java基础/GitHub图片/JavaWeb/2.jpg)
+[![img](https://github.com/wind0926/JAVA2020/blob/master/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/img/20.jpg)](https://github.com/wind0926/JAVA2019/blob/master/image/Java基础/GitHub图片/JavaWeb/2.jpg)
 
 #### 1）响应行
 
@@ -732,7 +732,7 @@ http协议和https协议的区别：传输信息安全性不同、连接方式�
 
 2、https协议：是具有安全性的ssl加密传输协议，为浏览器和服务器之间的通信加密，确保数据传输的安全。
 
-[![img](https://github.com/wind0926/JAVA2020/blob/master/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/21.jpg)](https://github.com/wind0926/JAVA2019/blob/master/image/Java基础/GitHub图片/JavaWeb/3.jpg)
+[![img](https://github.com/wind0926/JAVA2020/blob/master/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/img/21.jpg)](https://github.com/wind0926/JAVA2019/blob/master/image/Java基础/GitHub图片/JavaWeb/3.jpg)
 
 #### 二、连接方式不同
 
@@ -774,7 +774,7 @@ Https采用的是对称加密+非对称加密+SSL(由ca机构颁发)
 
 图解（图片来源：《图解HTTP》）：
 
-[![状态码](https://github.com/wind0926/JAVA2020/blob/master/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/22.png)](https://github.com/wind0926/JAVA2019/blob/master/image/Java基础/计算机网络/13.png)
+[![状态码](https://github.com/wind0926/JAVA2020/blob/master/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/img/22.png)](https://github.com/wind0926/JAVA2019/blob/master/image/Java基础/计算机网络/13.png)
 
 总体来说分为以下几个过程:
 
@@ -791,7 +791,7 @@ Https采用的是对称加密+非对称加密+SSL(由ca机构颁发)
 
 # 状态码
 
-[![状态码](https://github.com/wind0926/JAVA2020/blob/master/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/23.png)](https://github.com/wind0926/JAVA2019/blob/master/image/Java基础/计算机网络/14.png)
+[![状态码](https://github.com/wind0926/JAVA2020/blob/master/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/img/23.png)](https://github.com/wind0926/JAVA2019/blob/master/image/Java基础/计算机网络/14.png)
 
 #  各种协议与HTTP协议之间的关系
 
@@ -799,7 +799,7 @@ Https采用的是对称加密+非对称加密+SSL(由ca机构颁发)
 
 图片来源：《图解HTTP》
 
-[![各种协议与HTTP协议之间的关系](https://github.com/wind0926/JAVA2020/blob/master/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/24.png)](https://github.com/wind0926/JAVA2019/blob/master/image/Java基础/计算机网络/15.png)
+[![各种协议与HTTP协议之间的关系](https://github.com/wind0926/JAVA2020/blob/master/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/img/24.png)](https://github.com/wind0926/JAVA2019/blob/master/image/Java基础/计算机网络/15.png)
 
 #  HTTP长连接、短连接
 
