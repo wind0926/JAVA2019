@@ -94,7 +94,7 @@ ok，如果发生上述情况，确实是会发生脏数据。
 如何解决？ 
 提供一个保障的重试机制即可，这里给出两套方案。 
 **方案一：**
-![这里写图片描述]( https://github.com/wind0926/JAVA2020/tree/master/Redis/img/7)
+![这里写图片描述]( https://github.com/wind0926/JAVA2020/blob/master/Redis/img/7.png)
 
 流程如下所示 
 （1）更新数据库数据； 
@@ -104,7 +104,7 @@ ok，如果发生上述情况，确实是会发生脏数据。
 （5）继续重试删除操作，直到成功 
 然而，该方案有一个缺点，对业务线代码造成大量的侵入。于是有了方案二，在方案二中，启动一个订阅程序去订阅数据库的binlog，获得需要操作的数据。在应用程序中，另起一段程序，获得这个订阅程序传来的信息，进行删除缓存操作。 
 **方案二：** 
-![这里写图片描述](https://github.com/wind0926/JAVA2020/tree/master/Redis/img/8)
+![这里写图片描述](https://github.com/wind0926/JAVA2020/blob/master/Redis/img/8.png)
 
 流程如下图所示： 
 （1）更新数据库数据 
