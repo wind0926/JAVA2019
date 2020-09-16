@@ -8,7 +8,7 @@
 
 ReentrantLock 位于 `java.util.concurrent.locks` 包下，它实现了 `Lock` 接口和 `Serializable` 接口。
 
-![img](E:\Javawork\Java2020Code\JAVA2020\JUC\Java并发\图片\reentrantLock1.png)
+![img](https://github.com/wind0926/JAVA2020/blob/master/JUC/Java%E5%B9%B6%E5%8F%91/%E5%9B%BE%E7%89%87/reentrantLock1.png)
 
 ReentrantLock 是一把`可重入锁`和`互斥锁`，它具有与 synchronized 关键字相同的含有隐式监视器锁（monitor）的基本行为和语义，但是它比 synchronized 具有更多的方法和功能。
 
@@ -43,7 +43,7 @@ private ReentrantLock lock = new ReentrantLock();
 
 FairSync 和 NonfairSync 都是 ReentrantLock 的内部类，继承于 `Sync` 类，下面来看一下它们的继承结构，便于梳理。
 
-![img](E:\Javawork\Java2020Code\JAVA2020\JUC\Java并发\图片\reentrantLock2.png)
+![img](https://github.com/wind0926/JAVA2020/blob/master/JUC/Java%E5%B9%B6%E5%8F%91/%E5%9B%BE%E7%89%87/reentrantLock2.png)
 
 ```java
 abstract static class Sync extends AbstractQueuedSynchronizer {...}
@@ -100,23 +100,23 @@ public class MyFairLock extends Thread{
 
 此时如果你想了解更多的话，那么我就从源码的角度跟你聊聊如何 ReentrantLock 是如何实现这两种锁的。
 
-![img](E:\Javawork\Java2020Code\JAVA2020\JUC\Java并发\图片\reentrantLock3.png)
+![img](https://github.com/wind0926/JAVA2020/blob/master/JUC/Java%E5%B9%B6%E5%8F%91/%E5%9B%BE%E7%89%87/reentrantLock3.png)
 
 如上图所示，公平锁的加锁流程要比非公平锁的加锁流程简单，下面要聊一下具体的流程了，请小伙伴们备好板凳。
 
 下面先看一张流程图，这张图是 acquire 方法的三条主要流程
 
-![img](E:\Javawork\Java2020Code\JAVA2020\JUC\Java并发\图片\reentrantLock4.png)
+![img](https://github.com/wind0926/JAVA2020/blob/master/JUC/Java%E5%B9%B6%E5%8F%91/%E5%9B%BE%E7%89%87/reentrantLock4.png)
 
 **首先是第一条路线**，tryAcquire 方法，顾名思义尝试获取，也就是说可以成功获取锁，也可以获取锁失败。
 
 使用 `ctrl+左键` 点进去是调用 AQS 的方法，但是 ReentrantLock 实现了 AQS 接口，所以调用的是 ReentrantLock 的 tryAcquire 方法；
 
-![img](E:\Javawork\Java2020Code\JAVA2020\JUC\Java并发\图片\reentrantLock5.png)
+![img](https://github.com/wind0926/JAVA2020/blob/master/JUC/Java%E5%B9%B6%E5%8F%91/%E5%9B%BE%E7%89%87/reentrantLock5.png)
 
 首先会取得当前线程，然后去读取当前锁的同步状态，还记得锁的四种状态吗？分别是 `无锁、偏向锁、轻量级锁和重量级锁`，如果你不是很明白的话，请参考博主这篇文章（[**不懂什么是锁？看看这篇你就明白了**](https://mp.weixin.qq.com/s?__biz=MzU2NDg0OTgyMA==&mid=2247484919&idx=1&sn=b36b9b84ad50559210b6f21901a882b9&chksm=fc45f804cb327112bb4301191d8f3a464244ca7cb93da73f3b1d8ff28821d6ac32e2512d66e0&token=1671614453&lang=zh_CN&scene=21#wechat_redirect)），如果判断同步状态是 0 的话，就证明是无锁的，参考下面这幅图( 1bit 表示的是是否偏向锁 )
 
-![img](E:\Javawork\Java2020Code\JAVA2020\JUC\Java并发\图片\reentrantLock6.png)
+![img](https://github.com/wind0926/JAVA2020/blob/master/JUC/Java%E5%B9%B6%E5%8F%91/%E5%9B%BE%E7%89%87/reentrantLock6.png)
 
 如果是无锁（也就是没有加锁），说明是第一次上锁，首先会先判断一下队列中是否有比当前线程等待时间更长的线程（hasQueuedPredecessors）；然后通过 `CAS` 方法原子性的更新锁的状态，CAS 方法更新的要求涉及三个变量，`currentValue(当前线程的值)，expectedValue(期望更新的值)，updateValue(更新的值)`，它们的更新如下
 
@@ -134,7 +134,7 @@ acquire 方法会先查看同步状态是否获取成功，如果成功则方法
 
 **然后看一下第二条路线 addWaiter**
 
-![img](E:\Javawork\Java2020Code\JAVA2020\JUC\Java并发\图片\reentrantLock7.png)
+![img](https://github.com/wind0926/JAVA2020/blob/master/JUC/Java%E5%B9%B6%E5%8F%91/%E5%9B%BE%E7%89%87/reentrantLock7.png)
 
 这里首先把当前线程和 Node 的节点类型进行封装，Node 节点的类型有两种，`EXCLUSIVE` 和 `SHARED` ，前者为独占模式，后者为共享模式，具体的区别我们会在 AQS 源码讨论，这里读者只需要知道即可。
 
@@ -144,13 +144,13 @@ acquire 方法会先查看同步状态是否获取成功，如果成功则方法
 
 **在看第三条路线 acquireQueued**
 
-![img](E:\Javawork\Java2020Code\JAVA2020\JUC\Java并发\图片\reentrantLock8.png)
+![img](https://github.com/wind0926/JAVA2020/blob/master/JUC/Java%E5%B9%B6%E5%8F%91/%E5%9B%BE%E7%89%87/reentrantLock8.png)
 
 主要会有两个分支判断，首先会进行无限循环中，循环中每次都会判断给定当前节点的先驱节点，如果没有先驱节点会直接抛出空指针异常，直到返回 true。
 
 然后判断给定节点的先驱节点是不是头节点，并且当前节点能否获取独占式锁，如果是头节点并且成功获取独占锁后，队列头指针用指向当前节点，然后释放前驱节点。如果没有获取到独占锁，就会进入 `shouldParkAfterFailedAcquire` 和 `parkAndCheckInterrupt` 方法中，我们贴出这两个方法的源码
 
-![img](E:\Javawork\Java2020Code\JAVA2020\JUC\Java并发\图片\reentrantLock9.png)
+![img](https://github.com/wind0926/JAVA2020/blob/master/JUC/Java%E5%B9%B6%E5%8F%91/%E5%9B%BE%E7%89%87/reentrantLock9.png)
 
 `shouldParkAfterFailedAcquire` 方法主要逻辑是使用`compareAndSetWaitStatus(pred, ws, Node.SIGNAL)`使用CAS将节点状态由 INITIAL 设置成 SIGNAL，表示当前线程阻塞。当 compareAndSetWaitStatus 设置失败则说明 shouldParkAfterFailedAcquire 方法返回 false，然后会在 acquireQueued 方法中死循环中会继续重试，直至compareAndSetWaitStatus 设置节点状态位为 SIGNAL 时 shouldParkAfterFailedAcquire 返回 true 时才会执行方法 parkAndCheckInterrupt 方法。（这块在后面研究 AQS 会细讲）
 
@@ -166,17 +166,17 @@ acquire 方法会先查看同步状态是否获取成功，如果成功则方法
 
 
 
-![img](E:\Javawork\Java2020Code\JAVA2020\JUC\Java并发\图片\reentrantLock10.png)
+![img](https://github.com/wind0926/JAVA2020/blob/master/JUC/Java%E5%B9%B6%E5%8F%91/%E5%9B%BE%E7%89%87/reentrantLock10.png)
 
 ### 非公平锁的加锁（lock）流程详解
 
 非公平锁的加锁步骤和公平锁的步骤只有两处不同，一处是非公平锁在加锁前会直接使用 CAS 操作设置同步状态，如果设置成功，就会把当前线程设置为偏向锁的线程；一处是 CAS 操作失败执行 `tryAcquire` 方法，读取线程同步状态，如果未加锁会使用 CAS 再次进行加锁，不会等待 `hasQueuedPredecessors` 方法的执行，达到只要线程释放锁就会加锁的目的。下面通过源码和流程图来详细理解
 
-![img](E:\Javawork\Java2020Code\JAVA2020\JUC\Java并发\图片\reentrantLock11.png)
+![img](https://github.com/wind0926/JAVA2020/blob/master/JUC/Java%E5%B9%B6%E5%8F%91/%E5%9B%BE%E7%89%87/reentrantLock11.png)
 
 这是非公平锁和公平锁不同的两处地方，下面是非公平锁的加锁流程图
 
-![img](E:\Javawork\Java2020Code\JAVA2020\JUC\Java并发\图片\reentrantLock12.png)
+![img](https://github.com/wind0926/JAVA2020/blob/master/JUC/Java%E5%B9%B6%E5%8F%91/%E5%9B%BE%E7%89%87/reentrantLock12.png)
 
 ### lockInterruptibly 以可中断的方式获取锁
 
@@ -198,19 +198,19 @@ lockInterruptibly 的中文意思为如果没有被打断，则获取锁。如�
 
 **下面看一下它的源码是怎么写的**
 
-![img](E:\Javawork\Java2020Code\JAVA2020\JUC\Java并发\图片\reentrantLock13.png)
+![img](https://github.com/wind0926/JAVA2020/blob/master/JUC/Java%E5%B9%B6%E5%8F%91/%E5%9B%BE%E7%89%87/reentrantLock13.png)
 
 首先会调用 `acquireInterruptibly` 这个方法，判断当前线程是否被中断，如果中断抛出异常，没有中断则判断`公平锁/非公平锁` 是否已经获取锁，如果没有获取锁（tryAcquire 返回 false）则调用 `doAcquireInterruptibly` 方法，这个方法和 acquireQueued 方法没什么区别，就是线程在等待状态的过程中，如果线程被中断，线程会抛出异常。
 
 下面是它的流程图
 
-![img](E:\Javawork\Java2020Code\JAVA2020\JUC\Java并发\图片\reentrantLock14.png)
+![img](https://github.com/wind0926/JAVA2020/blob/master/JUC/Java%E5%B9%B6%E5%8F%91/%E5%9B%BE%E7%89%87/reentrantLock14.png)
 
 ### tryLock 尝试加锁
 
 仅仅当其他线程没有获取这把锁的时候获取这把锁，tryLock 的源代码和非公平锁的加锁流程基本一致，它的源代码如下
 
-![img](E:\Javawork\Java2020Code\JAVA2020\JUC\Java并发\图片\reentrantLock15.png)
+![img](https://github.com/wind0926/JAVA2020/blob/master/JUC/Java%E5%B9%B6%E5%8F%91/%E5%9B%BE%E7%89%87/reentrantLock15.png)
 
 tryLock 超时获取锁
 
@@ -224,27 +224,27 @@ if (lock.tryLock() || lock.tryLock(timeout, unit)) {...}
 
 它的源码如下
 
-![img](E:\Javawork\Java2020Code\JAVA2020\JUC\Java并发\图片\reentrantLock16.png)
+![img](https://github.com/wind0926/JAVA2020/blob/master/JUC/Java%E5%B9%B6%E5%8F%91/%E5%9B%BE%E7%89%87/reentrantLock16.png)
 
 首先需要了解一下 `TimeUnit` 工具类，TimeUnit 表示给定粒度单位的持续时间，并且提供了一些用于时分秒跨单位转换的方法，通过使用这些方法进行定时和延迟操作。
 
 `toNanos` 用于把 long 型表示的时间转换成为纳秒，然后判断线程是否被打断，如果没有打断，则以`公平锁/非公平锁` 的方式获取锁，如果能够获取返回true，获取失败则调用`doAcquireNanos`方法使用超时等待的方式获取锁。在超时等待获取锁的过程中，如果等待时间大于应等待时间，或者应等待时间设置不合理的话，返回 false。
 
-![img](E:\Javawork\Java2020Code\JAVA2020\JUC\Java并发\图片\reentrantLock17.png)
+![img](https://github.com/wind0926/JAVA2020/blob/master/JUC/Java%E5%B9%B6%E5%8F%91/%E5%9B%BE%E7%89%87/reentrantLock17.png)
 
 这里面以超时的方式获取锁也可以画一张流程图如下
 
-![img](E:\Javawork\Java2020Code\JAVA2020\JUC\Java并发\图片\reentrantLock18.png)
+![img](https://github.com/wind0926/JAVA2020/blob/master/JUC/Java%E5%B9%B6%E5%8F%91/%E5%9B%BE%E7%89%87/reentrantLock18.png)
 
 ### unlock 解锁流程
 
 `unlock` 和 `lock` 是一对情侣，它们分不开彼此，在调用 lock 后必须通过 unlock 进行解锁。如果当前线程持有锁，在调用 unlock 后，count 计数将减少。如果保持计数为0就会进行解锁。如果当前线程没有持有锁，在调用 unlock 会抛出 `IllegalMonitorStateException` 异常。下面是它的源码
 
-![img](E:\Javawork\Java2020Code\JAVA2020\JUC\Java并发\图片\reentrantLock19.png)
+![img](https://github.com/wind0926/JAVA2020/blob/master/JUC/Java%E5%B9%B6%E5%8F%91/%E5%9B%BE%E7%89%87/reentrantLock19.png)
 
 在有了上面阅读源码的经历后，相信你会很快明白这段代码的意思，锁的释放不会区分公平锁还是非公平锁，主要的判断逻辑就是 `tryRelease` 方法，`getState` 方法会取得同步锁的重入次数，如果是获取了偏向锁，那么可能会多次获取，state 的值会大于 1，这时候 c 的值 > 0 ，返回 false，解锁失败。如果 state = 1，那么 c = 0，再判断当前线程是否是独占锁的线程，释放独占锁，返回 true，当 head 指向的头结点不为 null，并且该节点的状态值不为0的话才会执行 unparkSuccessor 方法，再进行锁的获取。
 
-![img](E:\Javawork\Java2020Code\JAVA2020\JUC\Java并发\图片\reentrantLock20.png)
+![img](https://github.com/wind0926/JAVA2020/blob/master/JUC/Java%E5%B9%B6%E5%8F%91/%E5%9B%BE%E7%89%87/reentrantLock20.png)
 
 ## ReentrantLock 其他方法
 

@@ -24,9 +24,9 @@
  6. 恢复处理机上下文。
 ```
 
-![image-20200722180556370](E:\Javawork\Java2020Code\JAVA2020\Java基础部分\BIO&NIO&AIO\图片\1.png)
+![image-20200722180556370](https://github.com/wind0926/JAVA2020/blob/master/Java%E5%9F%BA%E7%A1%80%E9%83%A8%E5%88%86/BIO%26NIO%26AIO/%E5%9B%BE%E7%89%87/1.png)
 
-![image-20200722180617295](E:\Javawork\Java2020Code\JAVA2020\Java基础部分\BIO&NIO&AIO\图片\2.png)
+![image-20200722180617295](https://github.com/wind0926/JAVA2020/blob/master/Java%E5%9F%BA%E7%A1%80%E9%83%A8%E5%88%86/BIO%26NIO%26AIO/%E5%9B%BE%E7%89%87/2.png)
 
 
 
@@ -84,7 +84,7 @@
 
 ​     2) 内核的内存空间的数据copy到用户的内存空间中(此过程才是真正I/O发生的地方) 
 
-![img](E:\Javawork\Java2020Code\JAVA2020\Java基础部分\BIO&NIO&AIO\图片\3.png)
+![img](https://github.com/wind0926/JAVA2020/blob/master/Java%E5%9F%BA%E7%A1%80%E9%83%A8%E5%88%86/BIO%26NIO%26AIO/%E5%9B%BE%E7%89%87/3.png)
 
 注意: io调用大多数都是阻塞的
 
@@ -113,7 +113,7 @@
 #### 3.3阻塞 I/O（blocking IO）
 
 在linux中，默认情况下所有的socket都是blocking，一个典型的读操作流程大概是这样：
-![preview](E:\Javawork\Java2020Code\JAVA2020\Java基础部分\BIO&NIO&AIO\图片\4.png)
+![preview](https://github.com/wind0926/JAVA2020/blob/master/Java%E5%9F%BA%E7%A1%80%E9%83%A8%E5%88%86/BIO%26NIO%26AIO/%E5%9B%BE%E7%89%87/4.png)
 
 当用户进程调用了recvfrom这个系统调用，kernel就开始了IO的第一个阶段：准备数据（对于网络IO来说，很多时候数据在一开始还没有到达。比如，还没有收到一个完整的UDP包。这个时候kernel就要等待足够的数据到来）。这个过程需要等待，也就是说数据被拷贝到操作系统内核的缓冲区中是需要一个过程的。而在用户进程这边，整个进程会被阻塞（当然，是进程自己选择的阻塞）。当kernel一直等到数据准备好了，它就会将数据从kernel中拷贝到用户内存，然后kernel返回结果，用户进程才解除block的状态，重新运行起来。
 
@@ -125,7 +125,7 @@
 
 linux下，可以通过设置socket使其变为non-blocking。当对一个non-blocking socket执行读操作时，流程是这个样子：
 
-![clipboard.png](E:\Javawork\Java2020Code\JAVA2020\Java基础部分\BIO&NIO&AIO\图片\5.png)
+![clipboard.png](https://github.com/wind0926/JAVA2020/blob/master/Java%E5%9F%BA%E7%A1%80%E9%83%A8%E5%88%86/BIO%26NIO%26AIO/%E5%9B%BE%E7%89%87/5.png)
 
 当用户进程发出read操作时，如果kernel中的数据还没有准备好，那么它并不会block用户进程，而是立刻返回一个error。从用户进程角度讲 ，它发起一个read操作后，并不需要等待，而是马上就得到了一个结果。用户进程判断结果是一个error时，它就知道数据还没有准备好，于是它可以再次发送read操作。一旦kernel中的数据准备好了，并且又再次收到了用户进程的system call，那么它马上就将数据拷贝到了用户内存，然后返回。
 
@@ -137,7 +137,7 @@ linux下，可以通过设置socket使其变为non-blocking。当对一个non-bl
 
 IO multiplexing就是我们说的select，poll，epoll，有些地方也称这种IO方式为event driven IO。select/epoll的好处就在于单个process就可以同时处理多个网络连接的IO。它的基本原理就是select，poll，epoll这个function会不断的轮询所负责的所有socket，当某个socket有数据到达了，就通知用户进程。
 
-![preview](E:\Javawork\Java2020Code\JAVA2020\Java基础部分\BIO&NIO&AIO\图片\6.png)
+![preview](https://github.com/wind0926/JAVA2020/blob/master/Java%E5%9F%BA%E7%A1%80%E9%83%A8%E5%88%86/BIO%26NIO%26AIO/%E5%9B%BE%E7%89%87/6.png)
 
 当用户进程调用了select，那么整个进程会被block，而同时，kernel会“监视”所有select负责的socket，当任何一个socket中的数据准备好了，select就会返回。这个时候用户进程再调用read操作，将数据从kernel拷贝到用户进程。
 
@@ -154,7 +154,7 @@ IO multiplexing就是我们说的select，poll，epoll，有些地方也称这�
 #### 3.6异步 I/O（asynchronous IO）
 
 inux下的asynchronous IO其实用得很少。先看一下它的流程：
-![preview](E:\Javawork\Java2020Code\JAVA2020\Java基础部分\BIO&NIO&AIO\图片\7.png)
+![preview](https://github.com/wind0926/JAVA2020/blob/master/Java%E5%9F%BA%E7%A1%80%E9%83%A8%E5%88%86/BIO%26NIO%26AIO/%E5%9B%BE%E7%89%87/7.png)
 
 用户进程发起read操作之后，立刻就可以开始去做其它的事。而另一方面，从kernel的角度，当它受到一个asynchronous read之后，首先它会立刻返回，所以不会对用户进程产生任何block。然后，kernel会等待数据准备完成，然后将数据拷贝到用户内存，当这一切都完成之后，kernel会给用户进程发送一个signal，告诉它read操作完成了。
 
@@ -179,7 +179,7 @@ inux下的asynchronous IO其实用得很少。先看一下它的流程：
 而asynchronous IO则不一样，当进程发起IO 操作之后，就直接返回再也不理睬了，直到kernel发送一个信号，告诉进程说IO完成。在这整个过程中，进程完全没有被block。
 
 **各个IO Model的比较如图所示：**
-![clipboard.png](E:\Javawork\Java2020Code\JAVA2020\Java基础部分\BIO&NIO&AIO\图片\8.png)
+![clipboard.png](https://github.com/wind0926/JAVA2020/blob/master/Java%E5%9F%BA%E7%A1%80%E9%83%A8%E5%88%86/BIO%26NIO%26AIO/%E5%9B%BE%E7%89%87/8.png)
 
 通过上面的图片，可以发现non-blocking IO和asynchronous IO的区别还是很明显的。在non-blocking IO中，虽然进程大部分时间都不会被block，但是它仍然要求进程去主动的check，并且当数据准备完成以后，也需要进程主动的再次调用recvfrom来将数据拷贝到用户内存。而asynchronous IO则完全不同。它就像是用户进程将整个IO操作交给了他人（kernel）完成，然后他人做完后发信号通知。在此期间，用户进程不需要去检查IO操作的状态，也不需要主动的去拷贝数据。
 
@@ -201,7 +201,7 @@ select 函数监视的文件描述符分3类，分别是writefds、readfds、和
 
 select目前几乎在所有的平台上支持，其良好跨平台支持也是它的一个优点。select的一 个缺点在于单个进程能够监视的文件描述符的数量存在最大限制，在Linux上一般为1024，可以通过修改宏定义甚至重新编译内核的方式提升这一限制，但 是这样也会造成效率的降低。
 
-![image-20200722194312314](E:\Javawork\Java2020Code\JAVA2020\Java基础部分\BIO&NIO&AIO\图片\9.png)
+![image-20200722194312314](https://github.com/wind0926/JAVA2020/blob/master/Java%E5%9F%BA%E7%A1%80%E9%83%A8%E5%88%86/BIO%26NIO%26AIO/%E5%9B%BE%E7%89%87/9.png)
 
 #### 5.2 poll
 
@@ -224,7 +224,7 @@ pollfd结构包含了要监视的event和发生的event，不再使用select“�
 
 从上面看，select和poll都需要在返回后，通过遍历文件描述符来获取已经就绪的socket。事实上，同时连接的大量客户端在一时刻可能只有很少的处于就绪状态，因此随着监视的描述符数量的增长，其效率也会线性下降。
 
-![image-20200722194235293](E:\Javawork\Java2020Code\JAVA2020\Java基础部分\BIO&NIO&AIO\图片\10.png)
+![image-20200722194235293](https://github.com/wind0926/JAVA2020/blob/master/Java%E5%9F%BA%E7%A1%80%E9%83%A8%E5%88%86/BIO%26NIO%26AIO/%E5%9B%BE%E7%89%87/10.png)
 
 #### 5.3 epoll
 
@@ -271,7 +271,7 @@ EPOLLONESHOT：只监听一次事件，当监听完这次事件之后，如果�
  等待epfd上的io事件，最多返回maxevents个事件。
  参数events用来从内核得到事件的集合，maxevents告之内核这个events有多大，这个maxevents的值不能大于创建epoll_create()时的size，参数timeout是超时时间（毫秒，0会立即返回，-1将不确定，也有说法说是永久阻塞）。该函数返回需要处理的事件数目，如返回0表示已超时。
 
-![image-20200722194053200](E:\Javawork\Java2020Code\JAVA2020\Java基础部分\BIO&NIO&AIO\图片\11.png)
+![image-20200722194053200](https://github.com/wind0926/JAVA2020/blob/master/Java%E5%9F%BA%E7%A1%80%E9%83%A8%E5%88%86/BIO%26NIO%26AIO/%E5%9B%BE%E7%89%87/11.png)
 
 ##### 二 工作模式
 
@@ -487,7 +487,7 @@ static void modify_event(int epollfd,int fd,int state){
 
 什么是tcp粘包？拆包？
 
-![img](E:\Javawork\Java2020Code\JAVA2020\Java基础部分\BIO&NIO&AIO\图片\12.png)
+![img](https://github.com/wind0926/JAVA2020/blob/master/Java%E5%9F%BA%E7%A1%80%E9%83%A8%E5%88%86/BIO%26NIO%26AIO/%E5%9B%BE%E7%89%87/12.png)
 
 答：c向s发送2个数据包，那么可能会出现3种情况：
 
@@ -509,6 +509,6 @@ static void modify_event(int epollfd,int fd,int state){
 
 如何？答：c添加包首部，长度 ！固定每次发送的报文长度，不够补0.! 约定好包的边界，添加首部尾部标识
 
-![image-20200721161527319](E:\Javawork\Java2020Code\JAVA2020\Java基础部分\BIO&NIO&AIO\图片\14.png)
+![image-20200721161527319](https://github.com/wind0926/JAVA2020/blob/master/Java%E5%9F%BA%E7%A1%80%E9%83%A8%E5%88%86/BIO%26NIO%26AIO/%E5%9B%BE%E7%89%87/14.png)
 
-![img](E:\Javawork\Java2020Code\JAVA2020\Java基础部分\BIO&NIO&AIO\图片\13.png)
+![img](https://github.com/wind0926/JAVA2020/blob/master/Java%E5%9F%BA%E7%A1%80%E9%83%A8%E5%88%86/BIO%26NIO%26AIO/%E5%9B%BE%E7%89%87/13.png)

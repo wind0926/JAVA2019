@@ -2,9 +2,9 @@
 
 我们先看下`AQS`相关的`UML`图：
 
-![img](E:\Javawork\Java2020Code\JAVA2020\JUC\Java并发\图片\AQS1.png)
+![img](https://github.com/wind0926/JAVA2020/blob/master/JUC/Java%E5%B9%B6%E5%8F%91/%E5%9B%BE%E7%89%87/AQS1.png)
 
-![img](E:\Javawork\Java2020Code\JAVA2020\JUC\Java并发\图片\AQS2.png)
+![img](https://github.com/wind0926/JAVA2020/blob/master/JUC/Java%E5%B9%B6%E5%8F%91/%E5%9B%BE%E7%89%87/AQS2.png)
 
 ![img](data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==)
 
@@ -20,7 +20,7 @@
 
 ![img](data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==)     
 
-![img](E:\Javawork\Java2020Code\JAVA2020\JUC\Java并发\图片\AQS3.png)`AQS` 中提供了很多关于锁的实现方法，
+![img](https://github.com/wind0926/JAVA2020/blob/master/JUC/Java%E5%B9%B6%E5%8F%91/%E5%9B%BE%E7%89%87/AQS3.png)`AQS` 中提供了很多关于锁的实现方法，
 
 - getState()：获取锁的标志state值
 - setState()：设置锁的标志state值
@@ -55,15 +55,15 @@
 
 如果同时有**三个线程**并发抢占锁，此时**线程一**抢占锁成功，**线程二**和**线程三**抢占锁失败，具体执行流程如下：
 
-![img](E:\Javawork\Java2020Code\JAVA2020\JUC\Java并发\图片\AQS4.png)
+![img](https://github.com/wind0926/JAVA2020/blob/master/JUC/Java%E5%B9%B6%E5%8F%91/%E5%9B%BE%E7%89%87/AQS4.png)
 
 此时`AQS`内部数据为：
 
-![img](E:\Javawork\Java2020Code\JAVA2020\JUC\Java并发\图片\AQS5.png)
+![img](https://github.com/wind0926/JAVA2020/blob/master/JUC/Java%E5%B9%B6%E5%8F%91/%E5%9B%BE%E7%89%87/AQS5.png)
 
 **线程二**、**线程三**加锁失败：
 
-![img](E:\Javawork\Java2020Code\JAVA2020\JUC\Java并发\图片\AQS6.png)
+![img](https://github.com/wind0926/JAVA2020/blob/master/JUC/Java%E5%B9%B6%E5%8F%91/%E5%9B%BE%E7%89%87/AQS6.png)
 
 有图可以看出，等待队列中的节点`Node`是一个双向链表，这里`SIGNAL`是`Node`中`waitStatus`属性，`Node`中还有一个`nextWaiter`属性，这个并未在图中画出来，这个到后面`Condition`会具体讲解的。
 
@@ -102,7 +102,7 @@ protected final void setExclusiveOwnerThread(Thread thread) {
 
 我们按照真实场景来分析，**线程一**抢占锁成功后，`state`变为1，**线程二**通过`CAS`修改`state`变量必然会失败。此时`AQS`中`FIFO`(First In First Out 先进先出)队列中数据如图所示：
 
-![img](E:\Javawork\Java2020Code\JAVA2020\JUC\Java并发\图片\AQS7.png)
+![img](https://github.com/wind0926/JAVA2020/blob/master/JUC/Java%E5%B9%B6%E5%8F%91/%E5%9B%BE%E7%89%87/AQS7.png)
 
 我们将**线程二**执行的逻辑一步步拆解来看：
 
@@ -187,13 +187,13 @@ private Node enq(final Node node) {
 
 第一遍循环时`tail`指针为空，进入if逻辑，使用`CAS`操作设置`head`指针，将`head`指向一个新创建的`Node`节点。此时`AQS`中数据：
 
-![img](E:\Javawork\Java2020Code\JAVA2020\JUC\Java并发\图片\AQS8.png)
+![img](https://github.com/wind0926/JAVA2020/blob/master/JUC/Java%E5%B9%B6%E5%8F%91/%E5%9B%BE%E7%89%87/AQS8.png)
 
 执行完成之后，`head`、`tail`、`t`都指向第一个`Node`元素。
 
 接着执行第二遍循环，进入`else`逻辑，此时已经有了`head`节点，这里要操作的就是将**线程二**对应的`Node`节点挂到`head`节点后面。此时队列中就有了两个`Node`节点：
 
-![img](E:\Javawork\Java2020Code\JAVA2020\JUC\Java并发\图片\AQS9.png)
+![img](https://github.com/wind0926/JAVA2020/blob/master/JUC/Java%E5%B9%B6%E5%8F%91/%E5%9B%BE%E7%89%87/AQS9.png)
 
 `addWaiter()`方法执行完后，会返回当前线程创建的节点信息。继续往后执行`acquireQueued(addWaiter(Node.EXCLUSIVE), arg)`逻辑，此时传入的参数为**线程二**对应的`Node`节点信息：
 
@@ -249,7 +249,7 @@ private final boolean parkAndCheckInterrupt() {
 
 此时`AQS`中的数据如下图：
 
-![img](E:\Javawork\Java2020Code\JAVA2020\JUC\Java并发\图片\AQS10.png)
+![img](https://github.com/wind0926/JAVA2020/blob/master/JUC/Java%E5%B9%B6%E5%8F%91/%E5%9B%BE%E7%89%87/AQS10.png)
 
 此时**线程二**就静静的待在`AQS`的等待队列里面了，等着其他线程释放锁来唤醒它。
 
@@ -275,21 +275,21 @@ private Node addWaiter(Node mode) {
 
 此时等待队列的`tail`节点指向**线程二**，进入`if`逻辑后，通过`CAS`指令将`tail`节点重新指向**线程三**。接着**线程三**调用`enq()`方法执行入队操作，和上面**线程二**执行方式是一致的，入队后会修改**线程二**对应的`Node`中的`waitStatus=SIGNAL`。最后**线程三**也会被挂起。此时等待队列的数据如图：
 
-![img](E:\Javawork\Java2020Code\JAVA2020\JUC\Java并发\图片\AQS11.png)
+![img](https://github.com/wind0926/JAVA2020/blob/master/JUC/Java%E5%B9%B6%E5%8F%91/%E5%9B%BE%E7%89%87/AQS11.png)
 
 #### 线程一释放锁
 
 现在来分析下释放锁的过程，首先是**线程一**释放锁，释放锁后会唤醒`head`节点的后置节点，也就是我们现在的**线程二**，具体操作流程如下：
 
-![img](E:\Javawork\Java2020Code\JAVA2020\JUC\Java并发\图片\AQS12.png)
+![img](https://github.com/wind0926/JAVA2020/blob/master/JUC/Java%E5%B9%B6%E5%8F%91/%E5%9B%BE%E7%89%87/AQS12.png)
 
 执行完后等待队列数据如下：
 
-![img](E:\Javawork\Java2020Code\JAVA2020\JUC\Java并发\图片\AQS13.png)
+![img](https://github.com/wind0926/JAVA2020/blob/master/JUC/Java%E5%B9%B6%E5%8F%91/%E5%9B%BE%E7%89%87/AQS13.png)
 
 此时**线程二**已经被唤醒，继续尝试获取锁，如果获取锁失败，则会继续被挂起。如果获取锁成功，则`AQS`中数据如图：
 
-![img](E:\Javawork\Java2020Code\JAVA2020\JUC\Java并发\图片\AQS14.png)
+![img](https://github.com/wind0926/JAVA2020/blob/master/JUC/Java%E5%B9%B6%E5%8F%91/%E5%9B%BE%E7%89%87/AQS14.png)
 
 接着还是一步步拆解来看，先看看**线程一**释放锁的代码：
 
@@ -327,7 +327,7 @@ protected final boolean tryRelease(int releases) {
 
 执行完`ReentrantLock.tryRelease()`后，`state`被设置成0，Lock对象的独占锁被设置为null。此时看下`AQS`中的数据：
 
-![img](E:\Javawork\Java2020Code\JAVA2020\JUC\Java并发\图片\AQS15.png)
+![img](https://github.com/wind0926/JAVA2020/blob/master/JUC/Java%E5%B9%B6%E5%8F%91/%E5%9B%BE%E7%89%87/AQS15.png)
 
 接着执行`java.util.concurrent.locks.AbstractQueuedSynchronizer.unparkSuccessor()`方法，唤醒`head`的后置节点：
 
@@ -354,7 +354,7 @@ private void unparkSuccessor(Node node) {
 
 被唤醒的**线程二**会接着尝试获取锁，用`CAS`指令修改`state`数据。执行完成后可以查看`AQS`中数据：
 
-![img](E:\Javawork\Java2020Code\JAVA2020\JUC\Java并发\图片\AQS16.png)
+![img](https://github.com/wind0926/JAVA2020/blob/master/JUC/Java%E5%B9%B6%E5%8F%91/%E5%9B%BE%E7%89%87/AQS16.png)
 
 此时**线程二**被唤醒，**线程二**接着之前被`park`的地方继续执行，继续执行`acquireQueued()`方法。
 
@@ -388,7 +388,7 @@ final boolean acquireQueued(final Node node, int arg) {
 
 此时线程三获取锁成功，`AQS`中队列数据如下：
 
-![img](E:\Javawork\Java2020Code\JAVA2020\JUC\Java并发\图片\AQS17.png)
+![img](https://github.com/wind0926/JAVA2020/blob/master/JUC/Java%E5%B9%B6%E5%8F%91/%E5%9B%BE%E7%89%87/AQS17.png)
 
 等待队列中的数据都等待着被垃圾回收。
 
@@ -396,11 +396,11 @@ final boolean acquireQueued(final Node node, int arg) {
 
 当**线程二**释放锁时，会唤醒被挂起的**线程三**，流程和上面大致相同，被唤醒的**线程三**会再次尝试加锁，具体代码可以参考上面内容。具体流程图如下：
 
-![img](E:\Javawork\Java2020Code\JAVA2020\JUC\Java并发\图片\AQS18.png)
+![img](https://github.com/wind0926/JAVA2020/blob/master/JUC/Java%E5%B9%B6%E5%8F%91/%E5%9B%BE%E7%89%87/AQS18.png)
 
 此时`AQS`中队列数据如图：
 
-![img](E:\Javawork\Java2020Code\JAVA2020\JUC\Java并发\图片\AQS19.png)
+![img](https://github.com/wind0926/JAVA2020/blob/master/JUC/Java%E5%B9%B6%E5%8F%91/%E5%9B%BE%E7%89%87/AQS19.png)
 
 ![img](data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==)
 
@@ -412,7 +412,7 @@ final boolean acquireQueued(final Node node, int arg) {
 
 **非公平锁**执行流程：
 
-![img](E:\Javawork\Java2020Code\JAVA2020\JUC\Java并发\图片\AQS20.png)
+![img](https://github.com/wind0926/JAVA2020/blob/master/JUC/Java%E5%B9%B6%E5%8F%91/%E5%9B%BE%E7%89%87/AQS20.png)
 
 这里我们还是用之前的线程模型来举例子，当**线程二**释放锁的时候，唤醒被挂起的**线程三**，**线程三**执行`tryAcquire()`方法使用`CAS`操作来尝试修改`state`值，如果此时又来了一个**线程四**也来执行加锁操作，同样会执行`tryAcquire()`方法。
 
@@ -420,7 +420,7 @@ final boolean acquireQueued(final Node node, int arg) {
 
 **公平锁**执行流程：
 
-![img](E:\Javawork\Java2020Code\JAVA2020\JUC\Java并发\图片\AQS21.png)
+![img](https://github.com/wind0926/JAVA2020/blob/master/JUC/Java%E5%B9%B6%E5%8F%91/%E5%9B%BE%E7%89%87/AQS21.png)
 
 公平锁在加锁的时候，会先判断`AQS`等待队列中是存在节点，如果存在节点则会直接入队等待，具体代码如下.
 
@@ -482,7 +482,7 @@ public final boolean hasQueuedPredecessors() {
 
 这段代码很有意思，返回`false`代表队列中没有节点或者仅有一个节点是当前线程创建的节点。返回`true`则代表队列中存在等待节点，当前线程需要入队等待。
 
-![img](E:\Javawork\Java2020Code\JAVA2020\JUC\Java并发\图片\AQS22.png)
+![img](https://github.com/wind0926/JAVA2020/blob/master/JUC/Java%E5%B9%B6%E5%8F%91/%E5%9B%BE%E7%89%87/AQS22.png)
 
 先判断`head`是否等于`tail`，如果队列中只有一个`Node`节点，那么`head`会等于`tail`，接着判断`head`的后置节点，这里肯定会是`null`，如果此`Node`节点对应的线程和当前的线程是同一个线程，那么则会返回`false`，代表没有等待节点或者等待节点就是当前线程创建的`Node`节点。此时当前线程会尝试获取锁。
 
@@ -557,7 +557,7 @@ public class ReentrantLockDemo {
 
 执行结果如下图：
 
-![img](E:\Javawork\Java2020Code\JAVA2020\JUC\Java并发\图片\AQS23.png)
+![img](https://github.com/wind0926/JAVA2020/blob/master/JUC/Java%E5%B9%B6%E5%8F%91/%E5%9B%BE%E7%89%87/AQS23.png)
 
 这里**线程一**先获取锁，然后使用`await()`方法挂起当前线程并**释放锁**，**线程二**获取锁后使用`signal`唤醒**线程一**。
 
@@ -565,7 +565,7 @@ public class ReentrantLockDemo {
 
 我们还是用上面的`demo`作为实例，执行的流程如下：
 
-![img](E:\Javawork\Java2020Code\JAVA2020\JUC\Java并发\图片\AQS24.png)
+![img](https://github.com/wind0926/JAVA2020/blob/master/JUC/Java%E5%B9%B6%E5%8F%91/%E5%9B%BE%E7%89%87/AQS24.png)
 
 **线程一**执行`await()`方法：
 
@@ -596,7 +596,7 @@ public class ReentrantLockDemo {
 
 执行完后我们可以看下`Condition`队列中的数据：
 
-![img](E:\Javawork\Java2020Code\JAVA2020\JUC\Java并发\图片\AQS25.png)
+![img](https://github.com/wind0926/JAVA2020/blob/master/JUC/Java%E5%B9%B6%E5%8F%91/%E5%9B%BE%E7%89%87/AQS25.png)
 
 具体实现代码为：
 
@@ -623,7 +623,7 @@ private Node addConditionWaiter() {
 
 具体流程如下图：
 
-![img](E:\Javawork\Java2020Code\JAVA2020\JUC\Java并发\图片\AQS26.png)
+![img](https://github.com/wind0926/JAVA2020/blob/master/JUC/Java%E5%B9%B6%E5%8F%91/%E5%9B%BE%E7%89%87/AQS26.png)
 
 **线程二**执行`signal()`方法：
 
@@ -690,11 +690,11 @@ private Node enq(final Node node) {
 
 加入等待队列的代码在上面也已经分析过，此时等待队列中数据如下图：
 
-![img](E:\Javawork\Java2020Code\JAVA2020\JUC\Java并发\图片\AQS27.png)
+![img](https://github.com/wind0926/JAVA2020/blob/master/JUC/Java%E5%B9%B6%E5%8F%91/%E5%9B%BE%E7%89%87/AQS27.png)
 
 接着开始通过`CAS`修改当前节点的前置节点`waitStatus`为`SIGNAL`，并且唤醒当前线程。此时`AQS`中等待队列数据为：
 
-![img](E:\Javawork\Java2020Code\JAVA2020\JUC\Java并发\图片\AQS28.png)
+![img](https://github.com/wind0926/JAVA2020/blob/master/JUC/Java%E5%B9%B6%E5%8F%91/%E5%9B%BE%E7%89%87/AQS28.png)
 
 **线程一**被唤醒后，继续执行`await()`方法中的 while 循环。
 
