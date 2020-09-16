@@ -12,15 +12,15 @@
 
   [Synchronized总结（吊打面试官）](https://github.com/wind0926/JAVA2020/blob/master/JUC/Java%E5%B9%B6%E5%8F%91/synchronized/%E6%B7%B1%E5%85%A5%E5%AD%A6%E4%B9%A0%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%E4%B8%AD%E7%9A%84synchronized.md)
 
-  [ReentrantLock总结](https://github.com/wind0926/JAVA2020/blob/master/JUC/Java%E5%B9%B6%E5%8F%91/synchronized/%E6%B7%B1%E5%85%A5%E5%AD%A6%E4%B9%A0%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%E4%B8%AD%E7%9A%84synchronized.md)
+  [ReentrantLock总结](https://github.com/wind0926/JAVA2020/blob/master/JUC/Java%E5%B9%B6%E5%8F%91/reentrantLock/reentrantlock.md)
 
-  [AQS总结](https://github.com/wind0926/JAVA2020/blob/master/JUC/Java%E5%B9%B6%E5%8F%91/synchronized/%E6%B7%B1%E5%85%A5%E5%AD%A6%E4%B9%A0%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%E4%B8%AD%E7%9A%84synchronized.md)
+  [AQS总结](https://github.com/wind0926/JAVA2020/blob/master/JUC/Java%E5%B9%B6%E5%8F%91/reentrantLock/%E6%B7%B1%E5%85%A5%E5%88%86%E6%9E%90AQS%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86.md)
 
 - [JavaWeb](https://github.com/wind0926/JAVA2019/blob/master/Java%E5%9F%BA%E7%A1%80%E9%83%A8%E5%88%86/JavaWeb/JavaWeb.md)
 
 - [JavaIO基础知识点](https://github.com/wind0926/JAVA2019/blob/master/Java%E5%9F%BA%E7%A1%80%E9%83%A8%E5%88%86/NIO/JavaIO.md)
 
-- [JavaIO进阶](https://github.com/wind0926/JAVA2019/blob/master/Java%E5%9F%BA%E7%A1%80%E9%83%A8%E5%88%86/NIO/JavaIO.md)
+- [JavaIO进阶](https://github.com/wind0926/JAVA2020/blob/master/Java%E5%9F%BA%E7%A1%80%E9%83%A8%E5%88%86/BIO%26NIO%26AIO/IO%E6%80%BB%E7%BB%93.md)
 
 - [Stream流使用](https://github.com/wind0926/JAVA2020/blob/master/Java%E5%9F%BA%E7%A1%80%E9%83%A8%E5%88%86/StreamTest.java)
 
